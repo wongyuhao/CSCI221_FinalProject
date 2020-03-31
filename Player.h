@@ -1,23 +1,43 @@
 #pragma once
+#include <iostream>
+#include <ctime>
+#include <random>
+using namespace std;
 
-#define BASIC_HEALTH 100;
-#define BASIC_ATTACK 10;
+
+
 class Player
 {
 private:
+	struct pos {
+		int x;
+		int y;
+		pos(int a, int b){
+			this->x = a;
+			this->y = b;
+		}
+	};
 	static int playerCount;
 
-	int x_location;
-	int y_location;
+	
+
+	char playerID;
 
 	int healthStat;
 	int attackStat;
 
 public:
-	static int getPlayerCount;
+	Player(int healthStat= 100 , int attackStat = 10 );
 
-	Player();
+	static int getPlayerCount();
+
 	int doDamage(int);
 	void takeDamage(int);
+
+	
+
+	char getPlayerID() {
+		return playerID;
+	}
 };
 
