@@ -8,6 +8,8 @@
 
  vector <struct pos> Player::coordinates = {};
 
+
+
  Player::Player(int healthStat,int attackStat):
 	healthStat(healthStat),
 	attackStat(attackStat)

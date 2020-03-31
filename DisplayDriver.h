@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Player.h"
 
 using namespace std;
 
@@ -13,19 +14,18 @@ struct pos;
 
 class DisplayDriver
 {
-friend class Player;
+
 private:
-	
+	static vector <struct pos> coordinates;
 public:
-
-	
-
 	DisplayDriver() {
 		cout << "Initializing map..." << endl;
+		Player x;
+		coordinates = copyCoord(x);
 	}
 	void printMap();
 
-	
+	vector<struct pos> copyCoord(Player& obj);
 	
 };
 

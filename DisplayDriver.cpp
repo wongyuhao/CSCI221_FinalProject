@@ -1,5 +1,9 @@
 #include "DisplayDriver.h"
 
+vector<struct pos> DisplayDriver::copyCoord(Player& obj) {
+	return obj.coordinates;
+}
+
 void DisplayDriver::printMap()
 {
 	for (int row = 0; row < ROWSIZE; row++) {

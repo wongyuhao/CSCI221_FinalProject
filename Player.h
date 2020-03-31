@@ -5,6 +5,7 @@
 #include <ctime>
 #include <random>
 #include "DisplayDriver.h"
+
 using namespace std;
 
 struct pos {
@@ -28,12 +29,12 @@ private:
 	int healthStat;
 	int attackStat;
 
-	static vector <struct pos> coordinates;
-
+	
+	friend vector<struct pos> DisplayDriver::copyCoord(Player& obj);
 public:
 	Player(int healthStat= 100 , int attackStat = 10 );
 
-
+	static vector <struct pos> coordinates;
 	struct pos myPos;
 	static int getPlayerCount();
 
