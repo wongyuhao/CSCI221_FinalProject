@@ -1,7 +1,5 @@
 class Building
 {
-protected:
-	
 public:
 	
 };

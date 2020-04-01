@@ -43,8 +43,8 @@ void DisplayDriver::initMap(vector<class Player> playerList) {
 					map[row][col] = '#';//print borders
 				}else{
 					for (int i = 0; i < playerList.size(); i++) {
-						if (playerList[i].posX == col && playerList[i].posY == row){
-							map[row][col] = playerList[i].getPlayerID();
+						if (playerList[i].getPosX() == col && playerList[i].getPosY() == row){
+							map[row][col] = playerList[i].getID();
 						}
 					}
 

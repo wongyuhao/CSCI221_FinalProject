@@ -2,12 +2,9 @@
 
  int Player::playerCount = 0;
 
- int Player::getPlayerCount() {
+ int Player::getPlayerCount()  {
 	 return playerCount;
  }
-
-
-
 
 
  Player::Player(int healthStat,int attackStat):
@@ -15,15 +12,14 @@
 	attackStat(attackStat)
 {
 	
-	posX = (rand() % (MAPSIZE*2-2)) + 1;
-	posY = (rand() % (MAPSIZE-2)) + 1;
+	setPosX((rand() % (MAPSIZE*2-2)) + 1);
+	setPosY((rand() % (MAPSIZE-2)) + 1);
 	Player::playerCount++;
-	setPlayerID(static_cast<char>(Player::playerCount + 64));
+	setID(static_cast<char>(Player::playerCount + 64));
 	
 
-	cout << "Creating Player "<< getPlayerID()<<" at x = " << posX<<", y = "<< posY<<endl;
+	cout << getPlayerCount()<<". Creating Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
 	
-	cout << "Total players created: " << getPlayerCount() << endl;
 
 }
 

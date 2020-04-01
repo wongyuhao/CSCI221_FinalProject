@@ -5,43 +5,30 @@
 #include <ctime>
 #include <random>
 #include "DisplayDriver.h"
+#include "Entity.h"
 
 using namespace std;
 
 
 
-class Player
+class Player: public Entity
 {
 
 private:
 	static int playerCount;
-	char playerID;
+	
 
 	int healthStat;
-	int attackStat;
-
-
-
-	
+	int attackStat;	
 	
 public:
 	Player(int healthStat= 100 , int attackStat = 10 );
-
-	static int getPlayerCount();
-
-	int doDamage(int);
-	void takeDamage(int);
-
-	int posX;
-	int posY;
+	static int getPlayerCount() ;
+	
 
 	
-	void setPlayerID(char id) {
-		playerID = id;
-	}
-	char getPlayerID() {
-		return playerID;
-	}
+
+
 };
 
 #endif
