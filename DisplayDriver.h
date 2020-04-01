@@ -7,26 +7,21 @@
 
 using namespace std;
 
-#define ROWSIZE 30
-#define COLSIZE 60
-
-struct pos;
+#define MAPSIZE 30
 
 class DisplayDriver
 {
 
 private:
-	static vector <struct pos> coordinates;
+	static char map[MAPSIZE][MAPSIZE*2] ;
+	void initMap(vector<class Player>);
 public:
-	DisplayDriver() {
-		cout << "Initializing map..." << endl;
-		Player x;
-		coordinates = copyCoord(x);
+	DisplayDriver(vector<class Player> playerList) {
+		initMap(playerList);
+		printMap();
 	}
-	void printMap();
+	void printMap()const;
 
-	vector<struct pos> copyCoord(Player& obj);
-	
 };
 
 #endif

@@ -6,7 +6,7 @@
 	 return playerCount;
  }
 
- vector <struct pos> Player::coordinates = {};
+
 
 
 
@@ -15,17 +15,16 @@
 	attackStat(attackStat)
 {
 	
-	myPos.x = (rand() % 58) + 1;
-	myPos.y = (rand() % 28) + 1;
+	posX = (rand() % (MAPSIZE*2-2)) + 1;
+	posY = (rand() % (MAPSIZE-2)) + 1;
 	Player::playerCount++;
 	setPlayerID(static_cast<char>(Player::playerCount + 64));
-	myPos.ID = getPlayerID();
+	
 
-	cout << "Creating Player "<< getPlayerID()<<" at x = " << myPos.x<<", y = "<< myPos.y<<endl;
+	cout << "Creating Player "<< getPlayerID()<<" at x = " << posX<<", y = "<< posY<<endl;
 	
 	cout << "Total players created: " << getPlayerCount() << endl;
 
-	coordinates.push_back(myPos);
 }
 
 

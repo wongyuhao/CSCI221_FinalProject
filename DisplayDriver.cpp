@@ -1,31 +1,60 @@
 #include "DisplayDriver.h"
 
-vector<struct pos> DisplayDriver::copyCoord(Player& obj) {
-	return obj.coordinates;
+char DisplayDriver::map[MAPSIZE][MAPSIZE*2];
+
+void DisplayDriver::printMap() const {
+	cout << "Printing Map..." << endl;
+	for (int row = 0; row < MAPSIZE ; row++) {
+		for (int col = 0; col < MAPSIZE*2; col++) {
+			cout<< map[row][col];
+		}
+		cout << endl;
+	}
+	cout << "Printing Complete!" << endl;
 }
 
-void DisplayDriver::printMap()
-{
-	for (int row = 0; row < ROWSIZE; row++) {
 
-		if (row == 0 || row == ROWSIZE - 1) {
-			for (int col = 0; col < COLSIZE; col++) {
-				if (col == 0 || col == COLSIZE - 1) {
-					cout << "@";
-				}
-				else { cout << "#"; }
-			}
-			cout << endl;
+
+void DisplayDriver::initMap(vector<class Player> playerList) {
+
+	cout << "Initializing map..." << endl;
+
+	for (int row = 0; row < MAPSIZE; row++) {
+		for (int col = 0; col < MAPSIZE*2; col++) {
+			map[row][col] = ' ';
 		}
-		else {
-			for (int col = 0; col < COLSIZE; col++) {
-				if (col == 0 || col == COLSIZE - 1) {
-					cout << "#";
-				}
-				else { cout << " "; }
-			}
-			cout << endl;
-		}
-		
 	}
+
+	for (int row = 0; row < MAPSIZE; row++) {
+
+		if (row == 0 || row == MAPSIZE-1) { //print borders
+
+			for (int col = 0; col < MAPSIZE*2; col++) {
+				if (col == 0 || col == MAPSIZE*2 - 1) {
+					map[row][col] = '@';	//print borders
+				}
+				else { map[row][col] = '#'; }//print borders
+			}
+
+		}
+		else {  //print map
+			for (int col = 0; col < MAPSIZE*2; col++) {
+				if (col == 0 || col == MAPSIZE*2 - 1) {
+					map[row][col] = '#';//print borders
+				}else{
+					for (int i = 0; i < playerList.size(); i++) {
+						if (playerList[i].posX == col && playerList[i].posY == row){
+							map[row][col] = playerList[i].getPlayerID();
+						}
+					}
+
+
+				}
+			}
+
+		}
+
+	}
+	cout << "Initialization Complete!" << endl;
+
 }

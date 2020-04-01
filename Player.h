@@ -8,16 +8,7 @@
 
 using namespace std;
 
-struct pos {
-	int x;
-	int y;
-	char ID;
-	pos() {
-		x = -1;
-		y = -1;
-		ID = -1;
-	}
-};
+
 
 class Player
 {
@@ -29,17 +20,20 @@ private:
 	int healthStat;
 	int attackStat;
 
+
+
 	
-	friend vector<struct pos> DisplayDriver::copyCoord(Player& obj);
+	
 public:
 	Player(int healthStat= 100 , int attackStat = 10 );
 
-	static vector <struct pos> coordinates;
-	struct pos myPos;
 	static int getPlayerCount();
 
 	int doDamage(int);
 	void takeDamage(int);
+
+	int posX;
+	int posY;
 
 	
 	void setPlayerID(char id) {

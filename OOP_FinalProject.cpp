@@ -5,14 +5,19 @@ using namespace std;
 
 int main() {
 	srand(time(NULL));
-	//testing individual classes
+	int input;
+	cout << "Enter number of players:";
+	cin >> input;
+	vector <Player> playerList;
 
-	DisplayDriver map;
+	for (int i = 0; i < input && i<10; i++) {
+		playerList.push_back(Player());
+	}
 
-	
-	map.printMap();
+	DisplayDriver map(playerList);
 
-	Player p1;
-	Player p2;
-	Player p3;
+
+
+
+
 }
