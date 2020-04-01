@@ -6,6 +6,8 @@ private:
 	int posY;
 	char ID;
 
+
+
 public:
 	void setPosX(int x) {
 		posX = x;

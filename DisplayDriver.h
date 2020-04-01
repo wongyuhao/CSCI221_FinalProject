@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Player.h"
+#include "Building.h"
 
 using namespace std;
 
@@ -14,10 +15,10 @@ class DisplayDriver
 
 private:
 	static char map[MAPSIZE][MAPSIZE*2] ;
-	void initMap(vector<class Player>);
+	void initMap(vector<class Building>,vector<class Player>);
 public:
-	DisplayDriver(vector<class Player> playerList) {
-		initMap(playerList);
+	DisplayDriver(vector<class Building> buildingList,vector<class Player> playerList) {
+		initMap(buildingList,playerList);
 		printMap();
 	}
 	void printMap()const;

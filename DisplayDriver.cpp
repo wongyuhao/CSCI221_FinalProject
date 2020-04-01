@@ -15,10 +15,10 @@ void DisplayDriver::printMap() const {
 
 
 
-void DisplayDriver::initMap(vector<class Player> playerList) {
+void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Player> playerList) {
 
 	cout << "Initializing map..." << endl;
-
+	Building::initShops();
 	for (int row = 0; row < MAPSIZE; row++) {
 		for (int col = 0; col < MAPSIZE*2; col++) {
 			map[row][col] = ' ';
