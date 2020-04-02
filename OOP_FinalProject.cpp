@@ -19,13 +19,18 @@ int main() {
 
 	
 	vector <Player> playerList;
-	vector <Building> buildingList;
+	vector<Building> buildingList;
+	
+	buildingList.push_back(Building(SHOP1));
+
 
 	for (int i = 0; i < input && i<10; i++) {
 		playerList.push_back(Player());
 	}
 
-	DisplayDriver map(buildingList,playerList);
+	
+
+	DisplayDriver map(buildingList , playerList);
 
 
 

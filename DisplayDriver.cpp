@@ -18,12 +18,16 @@ void DisplayDriver::printMap() const {
 void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Player> playerList) {
 
 	cout << "Initializing map..." << endl;
-	Building::initShops();
+
+	
+
 	for (int row = 0; row < MAPSIZE; row++) {
 		for (int col = 0; col < MAPSIZE*2; col++) {
 			map[row][col] = ' ';
 		}
 	}
+
+
 
 	for (int row = 0; row < MAPSIZE; row++) {
 
@@ -37,19 +41,34 @@ void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Pla
 			}
 
 		}
-		else {  //print map
+		else {  
 			for (int col = 0; col < MAPSIZE*2; col++) {
 				if (col == 0 || col == MAPSIZE*2 - 1) {
 					map[row][col] = '#';//print borders
-				}else{
-					for (int i = 0; i < playerList.size(); i++) {
-						if (playerList[i].getPosX() == col && playerList[i].getPosY() == row){
-							map[row][col] = playerList[i].getID();
-						}
+				}
+				else {
+
+					//populate buildings
+					for (int i = 0; i < buildingList.size(); i++) {
+						map[buildingList[i].getPosY()][buildingList[i].getPosX()] = buildingList[i].getID();
 					}
 
+					//populate players
+					for (int i = 0; i < playerList.size(); i++) {
+						if (map[playerList[i].getPosY()][playerList[i].getPosX()] == ' ') {
+							map[playerList[i].getPosY()][playerList[i].getPosX()] = playerList[i].getID();
+						}
+						else {
+							int move = playerList[i].getPosX();
+							playerList[i].setPosX(move++);
+							map[playerList[i].getPosY()][playerList[i].getPosX()] = playerList[i].getID();
 
+						}
+					}
 				}
+
+
+				
 			}
 
 		}

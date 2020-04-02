@@ -9,18 +9,16 @@
 
  Player::Player(int healthStat,int attackStat):
 	healthStat(healthStat),
-	attackStat(attackStat)
+	attackStat(attackStat),
+	 Entity(
+		 static_cast<char>(Player::playerCount + 64),
+		 ((rand() % (MAPSIZE * 2 - 2)) + 1),
+		 ((rand() % (MAPSIZE - 2)) + 1)
+		 )
 {
-	
-	setPosX((rand() % (MAPSIZE*2-2)) + 1);
-	setPosY((rand() % (MAPSIZE-2)) + 1);
-	Player::playerCount++;
-	setID(static_cast<char>(Player::playerCount + 64));
-	
-
-	cout << getPlayerCount()<<". Creating Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
-	
-
+	Player::playerCount++;	
+	cout << getPlayerCount()
+		<<". Creating Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
 }
 
 
