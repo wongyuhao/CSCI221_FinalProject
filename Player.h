@@ -6,6 +6,7 @@
 #include <random>
 #include "DisplayDriver.h"
 #include "Entity.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -17,13 +18,15 @@ private:
 
 	int healthStat;
 	int attackStat;	
+	Item equipedItem;
 	
 public:
 	Player(int healthStat= 100 , int attackStat = 10 );
 	static int getPlayerCount() ;
 	
 	void movePlayer();
-
+	
+	
 	
 
 

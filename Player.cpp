@@ -11,14 +11,14 @@
 	healthStat(healthStat),
 	attackStat(attackStat),
 	 Entity(
-		 static_cast<char>(Player::playerCount + 64),
+		 static_cast<char>(Player::playerCount + 65),
 		 ((rand() % (MAPSIZE * 2 - 2)) + 1),
 		 ((rand() % (MAPSIZE - 2)) + 1)
 		 )
 {
 	Player::playerCount++;	
 	cout << getPlayerCount()
-		<<". Creating Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
+		<<": Spawning Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
 }
 
 

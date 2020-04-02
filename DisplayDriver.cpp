@@ -34,10 +34,7 @@ void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Pla
 		if (row == 0 || row == MAPSIZE-1) { //print borders
 
 			for (int col = 0; col < MAPSIZE*2; col++) {
-				if (col == 0 || col == MAPSIZE*2 - 1) {
-					map[row][col] = '@';	//print borders
-				}
-				else { map[row][col] = '#'; }//print borders
+				map[row][col] = '#';//print borders
 			}
 
 		}

@@ -5,7 +5,9 @@
 #include "Entity.h"
 
 #define SHOP1 '$',8,4
-#define SHOP2 '$',
+#define SHOP2 '$',52,4
+#define SHOP3 '$',8,26
+#define SHOP4 '$',52,26
 
 
 
