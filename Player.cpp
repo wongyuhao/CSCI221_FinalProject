@@ -1,16 +1,15 @@
 #include "Player.h"
 
-
-int Player::playerCount = 0;
+int Player::uniquePlayers = 0;
 
 int Player::getPlayerCount()  {
-	return playerCount;
+	return uniquePlayers;
 }
 
 
 Player::Player(int healthStat, int attackStat, int movementStat):
 	Entity(
-		static_cast<char>(Player::playerCount + 65),
+		static_cast<char>(uniquePlayers + 65),
 		((rand() % (MAPSIZE * 2 - 2)) + 1),
 		((rand() % (MAPSIZE - 2)) + 1)
 	),
@@ -20,7 +19,7 @@ Player::Player(int healthStat, int attackStat, int movementStat):
 	remainingMoves(0)
 	
 {
-	Player::playerCount++;	
+	Player::uniquePlayers++;	
 	cout << getPlayerCount()
 		<<": Spawning Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
 }
@@ -54,6 +53,16 @@ void buyItem(const Item& item) {
 
 void Player::endTurn() {
 	remainingMoves = 0;
+	cout << "Ending Turn..." << endl;
+	if (currentTurn >= playerCount-1) {
+		currentTurn = 0;
+		roundCounter++;
+		cout << "Moving to round " << roundCounter<<endl;
+	}
+	else {
+		currentTurn++;
+
+	}
 }
 
 void Player::dead() {

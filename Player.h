@@ -4,7 +4,8 @@
 #include <iostream>
 #include <ctime>
 #include <random>
-#include "DisplayDriver.h"
+
+#include "DisplayDriver.h" //includes resource.h
 
 #include "Entity.h"
 #include "Item.h"
@@ -15,7 +16,7 @@ class Player: public Entity
 {
 
 private:
-	static int playerCount;
+	static int uniquePlayers;
 
 	int healthStat;
 	int attackStat;

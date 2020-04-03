@@ -18,10 +18,9 @@ private:
 	void initMap();
 public:
 	DisplayDriver(vector<class Building> buildingList,vector<class Player> playerList)
-	:
-		local_BL(buildingList),
-		local_PL(playerList)
 	{
+		local_BL = buildingList;
+		local_PL = playerList;
 		initMap();
 		printMap();
 	}
