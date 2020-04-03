@@ -12,10 +12,8 @@ using namespace std;
 int main() {
 	srand(time(NULL));
 
-
-	int input;
 	cout << "Enter number of players:";
-	cin >> input;
+	cin >> playerCount;
 
 	
 	vector <Player> playerList;
@@ -27,16 +25,16 @@ int main() {
 	buildingList.push_back(Building(SHOP4));
 
 
-	for (int i = 0; i < input && i<10; i++) {
+	for (int i = 0; i < playerCount && i<10; i++) {
 		playerList.push_back(Player());
 	}
 
 	
 
 	DisplayDriver map(buildingList , playerList);
-	map.playerMenu(playerList);
-
-
+	for (int i = 0; i < playerCount * 2; i++) {
+		map.playerMenu();
+	}
 
 
 
