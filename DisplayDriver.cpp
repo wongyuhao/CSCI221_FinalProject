@@ -1,5 +1,7 @@
 #include "DisplayDriver.h"
 
+
+
 char DisplayDriver::map[MAPSIZE][MAPSIZE*2];
 
 void DisplayDriver::printMap() const {

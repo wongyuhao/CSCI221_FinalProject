@@ -1,7 +1,8 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
-const int MAPSIZE = 30;
-int turnCounter = 0;
+constexpr int MAPSIZE = 30;
+extern int turnCounter;
+extern int currentTurn = 0;
 
 #endif
