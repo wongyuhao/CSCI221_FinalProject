@@ -5,7 +5,7 @@
 #include <vector>
 #include "Player.h"
 #include "Building.h"
-#include "Resource.h"
+#include "Config.h"
 
 using namespace std;
 
@@ -21,8 +21,6 @@ public:
 		printMap();
 	}
 	void printMap()const;
-
-	void playerMenu();
 
 };
 
