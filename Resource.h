@@ -3,6 +3,6 @@
 
 constexpr int MAPSIZE = 30;
 extern int turnCounter;
-extern int currentTurn = 0;
+extern int currentTurn;
 
 #endif

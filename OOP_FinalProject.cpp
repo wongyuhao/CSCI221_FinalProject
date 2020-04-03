@@ -34,6 +34,7 @@ int main() {
 	
 
 	DisplayDriver map(buildingList , playerList);
+	map.playerMenu(playerList);
 
 
 
