@@ -157,6 +157,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="OOP_FinalProject.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Resource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Building.h" />

@@ -1,5 +1,8 @@
 #include "DisplayDriver.h"
 
+vector <class Building> DisplayDriver::local_BL;
+vector <class Player> DisplayDriver::local_PL;
+
 char DisplayDriver::map[MAPSIZE][MAPSIZE*2];
 
 void DisplayDriver::printMap() const {
@@ -13,9 +16,7 @@ void DisplayDriver::printMap() const {
 	cout << "Printing Complete!" << endl;
 }
 
-
-
-void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Player> playerList) {
+void DisplayDriver::initMap() {
 
 	cout << "Initializing map..." << endl;
 
@@ -46,19 +47,19 @@ void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Pla
 				else {
 
 					//populate buildings
-					for (int i = 0; i < buildingList.size(); i++) {
-						map[buildingList[i].getPosY()][buildingList[i].getPosX()] = buildingList[i].getID();
+					for (int i = 0; i < local_BL.size(); i++) {
+						map[local_BL[i].getPosY()][local_BL[i].getPosX()] = local_BL[i].getID();
 					}
 
 					//populate players
-					for (int i = 0; i < playerList.size(); i++) {
-						if (map[playerList[i].getPosY()][playerList[i].getPosX()] == ' ') {
-							map[playerList[i].getPosY()][playerList[i].getPosX()] = playerList[i].getID();
+					for (int i = 0; i < local_PL.size(); i++) {
+						if (map[local_PL[i].getPosY()][local_PL[i].getPosX()] == ' ') {
+							map[local_PL[i].getPosY()][local_PL[i].getPosX()] = local_PL[i].getID();
 						}
 						else {
-							int move = playerList[i].getPosX();
-							playerList[i].setPosX(move++);
-							map[playerList[i].getPosY()][playerList[i].getPosX()] = playerList[i].getID();
+							int move = local_PL[i].getPosX();
+							local_PL[i].setPosX(move++);
+							map[local_PL[i].getPosY()][local_PL[i].getPosX()] = local_PL[i].getID();
 
 						}
 					}
@@ -73,4 +74,17 @@ void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Pla
 	}
 	cout << "Initialization Complete!" << endl;
 
+}
+
+void DisplayDriver::playerMenu() {
+	cout << "Player " << local_PL[currentTurn].getID()<< "'s Turn:" << endl;
+	/*
+	
+	Menu of actions here
+	
+	*/
+	
+	local_PL[currentTurn].endTurn();
+
+	
 }

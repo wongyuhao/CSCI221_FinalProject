@@ -5,6 +5,7 @@
 #include <ctime>
 #include <random>
 #include "DisplayDriver.h"
+
 #include "Entity.h"
 #include "Item.h"
 
@@ -28,8 +29,8 @@ public:
 	
 	void beginTurn();
 	void move(const int targetX, const int targetY);
-	virtual void useItem(const Item& item);
-	void buyItem(const Item& item);
+	//virtual void useItem(const Item& item);
+	//void buyItem(const Item& item);
 	void endTurn();
 	
 	void dead();
