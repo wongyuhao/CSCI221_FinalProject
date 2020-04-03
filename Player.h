@@ -17,17 +17,22 @@ private:
 	static int playerCount;
 
 	int healthStat;
-	int attackStat;	
-	Item equipedItem;
+	int attackStat;
+	int movementStat;
+	int remainingMoves;
+	Item equippedItem;
 	
 public:
-	Player(int healthStat= 100 , int attackStat = 10 );
-	static int getPlayerCount() ;
+	Player(int healthStat = 100 , int attackStat = 10, int movementStat = 10);
+	static int getPlayerCount();
 	
-	void movePlayer();
+	void beginTurn();
+	void move(const int targetX, const int targetY);
+	virtual void useItem(const Item& item);
+	void buyItem(const Item& item);
+	void endTurn();
 	
-	
-	
+	void dead();
 
 
 };

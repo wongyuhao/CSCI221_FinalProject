@@ -5,10 +5,9 @@
 #include <vector>
 #include "Player.h"
 #include "Building.h"
+#include "Config.h"
 
 using namespace std;
-
-#define MAPSIZE 30
 
 class DisplayDriver
 {

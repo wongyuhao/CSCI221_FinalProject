@@ -1,4 +1,3 @@
-
 #ifndef BUILDING_H
 #define BUILDING_H
 
@@ -9,14 +8,12 @@
 #define SHOP3 '$',8,26
 #define SHOP4 '$',52,26
 
-
-
 class Building: public Entity
 {
 private:
 	
 public:
-	const Building(char id, int x, int y) :Entity(id, x, y) {};
+	Building(char id, int x, int y) :Entity(id, x, y) {};
 
 };
 

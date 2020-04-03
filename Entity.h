@@ -10,9 +10,9 @@ private:
 
 public:
 	Entity(char id, int x, int y):
-	ID(id),
 	posX(x),
-	posY(y)
+	posY(y),
+	ID(id)
 	{
 		
 	}
