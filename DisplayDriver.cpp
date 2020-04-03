@@ -13,8 +13,6 @@ void DisplayDriver::printMap() const {
 	cout << "Printing Complete!" << endl;
 }
 
-
-
 void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Player> playerList) {
 
 	cout << "Initializing map..." << endl;
@@ -74,3 +72,5 @@ void DisplayDriver::initMap(vector<class Building> buildingList,vector<class Pla
 	cout << "Initialization Complete!" << endl;
 
 }
+
+void DisplayDriver::playerMenu();
