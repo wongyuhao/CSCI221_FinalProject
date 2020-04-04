@@ -18,9 +18,6 @@
     <ClCompile Include="OOP_FinalProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DisplayDriver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Building.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,11 +33,11 @@
     <ClCompile Include="Resource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DisplayDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Building.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

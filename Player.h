@@ -5,9 +5,8 @@
 #include <ctime>
 #include <random>
 
-#include "DisplayDriver.h" //includes resource.h
+#include "Resource.h"
 
-#include "Entity.h"
 #include "Item.h"
 
 using namespace std;
@@ -32,6 +31,10 @@ public:
 	void move(const int targetX, const int targetY);
 	//virtual void useItem(const Item& item);
 	//void buyItem(const Item& item);
+
+	void attack();
+	
+	
 	void endTurn();
 	
 	void dead();

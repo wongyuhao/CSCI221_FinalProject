@@ -152,7 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Building.cpp" />
-    <ClCompile Include="DisplayDriver.cpp" />
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="OOP_FinalProject.cpp" />
@@ -161,7 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Building.h" />
-    <ClInclude Include="DisplayDriver.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Player.h" />

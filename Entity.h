@@ -17,7 +17,13 @@ public:
 		
 	}
 
-	Entity() {};
+	Entity():
+	posX(-1),
+	posY(-1),
+	ID(' ')
+	{
+	
+	};
 
 	void setPosX(int x) {
 		posX = x;

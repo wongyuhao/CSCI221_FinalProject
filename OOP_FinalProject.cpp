@@ -5,13 +5,13 @@
 
 #include "Building.h"
 #include "Player.h"
-#include "DisplayDriver.h"
+#include "Display.h"
 
 using namespace std;
 
 int main() {
 	srand(time(NULL));
-
+	
 	cout << "Enter number of players:";
 	cin >> playerCount;
 
@@ -31,10 +31,10 @@ int main() {
 
 	
 
-	DisplayDriver map(buildingList , playerList);
-	for (int i = 0; i < playerCount * 2; i++) {
-		map.playerMenu();
-	}
+	Display map(buildingList , playerList);
+	
+
+
 
 
 
