@@ -1,7 +1,6 @@
 #include <iostream>
-#include<random>
-#include<ctime>
-
+#include <random>
+#include <ctime>
 
 #include "Building.h"
 #include "Player.h"
@@ -12,12 +11,12 @@ using namespace std;
 int main() {
 	srand(time(NULL));
 	
-	cout << "Enter number of players:";
+	cout << "Enter number of players: ";
+	int playerCount;
 	cin >> playerCount;
 
-	
 	vector <Player> playerList;
-	vector<Building> buildingList;
+	vector <Building> buildingList;
 	
 	buildingList.push_back(Building(SHOP1));
 	buildingList.push_back(Building(SHOP2));
@@ -29,13 +28,5 @@ int main() {
 		playerList.push_back(Player());
 	}
 
-	
-
-	Display map(buildingList , playerList);
-	
-
-
-
-
-
+	Display display(buildingList, playerList);
 }
