@@ -1,5 +1,5 @@
 #include "Display.h"
-#include "Config.h"
+#include "Resource.h"
 
 void Display::printMap() const {
 	cout << "Printing Map..." << endl;
@@ -104,7 +104,7 @@ void Display::playerMenu() {
 				else { break; }
 			}
 			
-			currentPlayer->move(tgtX, tgtY, gameMap); 
+			currentPlayer->move(tgtX, tgtY); 
 			break;
 			
 		case 1 :
