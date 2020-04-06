@@ -1,9 +1,17 @@
 #include "Resource.h"
 
+vector<Building> buildingList = {
+	
+};
 
+vector<WeaponItem> weaponItemList = {
+	
+};
 
-int currentTurn = 0;
-int roundCounter = 1;
-int playerCount = 0;
+vector<HealingItem> healingItemList = {
+	
+};
 
-Entity* map[MAPSIZE][MAPSIZE * 2];
+vector<MovementItem> movementItemList = {
+	
+};
