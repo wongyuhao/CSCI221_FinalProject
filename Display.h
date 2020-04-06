@@ -6,7 +6,7 @@
 
 #include "Player.h"
 #include "Building.h"
-#include "Resource.h"
+#include "Config.h"
 
 using namespace std;
 
