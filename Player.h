@@ -4,10 +4,11 @@
 #include <iostream>
 #include <ctime>
 #include <random>
+#include <vector>
+#include <map>
 
-#include "Resource.h"
-
-#include "Item.h"
+#include "Entity.h"
+#include "Config.h"
 
 using namespace std;
 
@@ -20,26 +21,35 @@ private:
 	int healthStat;
 	int attackStat;
 	int movementStat;
+	int currency;
 	int remainingMoves;
-	Item equippedItem;
+	map<int,int> equippedItems; //Item ID -> count
 	
 public:
-	Player(int healthStat = 100 , int attackStat = 10, int movementStat = 10);
+	Player(int healthStat = 100, int attackStat = 10, int movementStat = 10, int currency = 0);
 	static int getPlayerCount();
 	
+	int getHealthStat() const;
+	int getAttackStat() const;
+	int getMovementStat() const;
+	int getCurrency() const;
+	int getRemainingMoves() const;
+	map<int,int>& getEquippedItems();
+	
+	void addHealthStat(const int _health);
+	void addAttackStat(const int _attack);
+	void addMovementStat(const int _movement);
+	void addCurrency(const int _currency);
+	
+	
 	void beginTurn();
-	void move(const int targetX, const int targetY);
-	//virtual void useItem(const Item& item);
-	//void buyItem(const Item& item);
+	
+	void move(const int targetX, const int targetY, Entity* gameMap[MAPSIZE][MAPSIZE*2]);
+	void attack(Player& target);
 
-	void attack();
-	
-	
-	void endTurn();
+	void endTurn(int &currentTurn, int &roundCounter);
 	
 	void dead();
-
-
 };
 
 #endif
