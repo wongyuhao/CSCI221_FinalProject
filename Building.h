@@ -10,8 +10,6 @@
 
 class Building: public Entity
 {
-private:
-	
 public:
 	Building(char id, int x, int y) :Entity(id, x, y) {};
 

@@ -1,10 +1,15 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
-#include "Entity.h"
 
-constexpr int MAPSIZE = 30;
-extern int currentTurn;
-extern int roundCounter;
-extern int playerCount;
-extern  Entity* map[MAPSIZE][MAPSIZE * 2];
+#include "Item.h"
+#include "Building.h"
+#include <vector>
+
+using namespace std;
+
+extern vector<Building> buildingList;
+extern vector<WeaponItem> weaponItemList;
+extern vector<HealingItem> healingItemList;
+extern vector<MovementItem> movementItemList;
+
 #endif

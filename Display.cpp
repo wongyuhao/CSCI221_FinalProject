@@ -1,9 +1,5 @@
 #include "Display.h"
-
-vector < Building> Display::local_BL;
-vector < Player> Display::local_PL;
-
-
+#include "Resource.h"
 
 void Display::printMap() const {
 	cout << "Printing Map..." << endl;
@@ -16,7 +12,7 @@ void Display::printMap() const {
 	cout << endl;
 	for (int row = 0; row < MAPSIZE ; row++) {
 		for (int col = 0; col < MAPSIZE*2; col++) {
-			cout<< map[row][col]->getID();
+			cout<< gameMap[row][col]->getID();
 		}
 		cout << " " << row;
 		cout << endl;
@@ -32,7 +28,7 @@ void Display::initMap() {
 
 	for (int row = 0; row < MAPSIZE; row++) {
 		for (int col = 0; col < MAPSIZE*2; col++) {
-			map[row][col] = new Entity(' ', row, col);
+			gameMap[row][col] = new Entity(' ', row, col);
 		}
 	}
 
@@ -43,31 +39,31 @@ void Display::initMap() {
 		if (row == 0 || row == MAPSIZE-1) { //print borders
 
 			for (int col = 0; col < MAPSIZE*2; col++) {
-				map[row][col] = new Entity('#',row,col);//print borders
+				gameMap[row][col] = new Entity('#',row,col);//print borders
 			}
 
 		}
 		else {  
 			for (int col = 0; col < MAPSIZE*2; col++) {
 				if (col == 0 || col == MAPSIZE*2 - 1) {
-					map[row][col] = new Entity('#', row, col);//print borders
+					gameMap[row][col] = new Entity('#', row, col);//print borders
 				}
 				else {
 
 					//populate buildings
 					for (int i = 0; i < local_BL.size(); i++) {
-						map[local_BL[i].getPosY()][local_BL[i].getPosX()] = &local_BL[i];
+						gameMap[local_BL[i].getPosY()][local_BL[i].getPosX()] = &local_BL[i];
 					}
 
 					//populate players
 					for (int i = 0; i < local_PL.size(); i++) {
-						if (map[local_PL[i].getPosY()][local_PL[i].getPosX()]->getID() == ' ') {
-							map[local_PL[i].getPosY()][local_PL[i].getPosX()] = &local_PL[i];
+						if (gameMap[local_PL[i].getPosY()][local_PL[i].getPosX()]->getID() == ' ') {
+							gameMap[local_PL[i].getPosY()][local_PL[i].getPosX()] = &local_PL[i];
 						}
 						else {
 							int move = local_PL[i].getPosX();
 							local_PL[i].setPosX(move++);
-							map[local_PL[i].getPosY()][local_PL[i].getPosX()] = &local_PL[i];
+							gameMap[local_PL[i].getPosY()][local_PL[i].getPosX()] = &local_PL[i];
 
 						}
 					}
@@ -97,7 +93,7 @@ void Display::playerMenu() {
 	cout << endl;
 	switch (options) {
 		case 0 :
-		{	cout << "Enter Target Coordinates (x,y): ";
+			cout << "Enter Target Coordinates (x,y): ";
 			
 			int tgtX, tgtY;
 			while (true) {
@@ -109,22 +105,40 @@ void Display::playerMenu() {
 			}
 			
 			currentPlayer->move(tgtX, tgtY); 
-		}
+			break;
+			
 		case 1 :
-		{
-
-		}
+			break;
+			
 		case 2 :
 			//currentPlayer->interact();
+			break;
+			
 		case 3 :
-			currentPlayer->endTurn();
+			currentPlayer->endTurn(currentTurn, roundCounter);
+			break;
+			
 		default:
-			currentPlayer->endTurn();
-
+			currentPlayer->endTurn(currentTurn, roundCounter);
 	}
 	
 	
-	local_PL[currentTurn].endTurn();
+	local_PL[currentTurn].endTurn(currentTurn, roundCounter);
 
 	
+}
+
+//prompts user the string prompt, receives Y/N
+bool promptYN(string prompt) {
+	cout << prompt << " (Y/N)" << endl;
+	
+	string input;
+	cin >> input;
+	
+	while(input.length() != 1 || (tolower(input[0]) != 'y' && tolower(input[0]) != 'n')){
+		cout << "Invalid response. Please try again. (Y/N)" << endl;
+		cin >> input;
+	}
+	
+	return (tolower(input[0]) == 'y');
 }

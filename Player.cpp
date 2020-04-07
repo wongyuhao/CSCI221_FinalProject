@@ -1,4 +1,14 @@
+#include <queue>
+
 #include "Player.h"
+
+const int INF = int(1e9);
+const int dx[4] = {0, 0, -1, 1};
+const int dy[4] = {-1, 1, 0, 0};
+
+bool outOfBounds(int x, int y) {
+	return (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE * 2);
+}
 
 int Player::uniquePlayers = 0;
 
@@ -6,8 +16,41 @@ int Player::getPlayerCount()  {
 	return uniquePlayers;
 }
 
+int Player::getHealthStat() const {
+	return healthStat;
+}
+int Player::getAttackStat() const {
+	return attackStat;
+}
+int Player::getMovementStat() const {
+	return movementStat;
+}
+int Player::getCurrency() const {
+	return currency;
+}
+int Player::getRemainingMoves() const {
+	return remainingMoves;
+}
+map<int,int>& Player::getEquippedItems() {
+	return equippedItems;
+}
 
-Player::Player(int healthStat, int attackStat, int movementStat):
+
+void Player::addHealthStat(const int _health) {
+	healthStat += _health;
+}
+void Player::addAttackStat(const int _attack) {
+	attackStat += _attack;
+}
+void Player::addMovementStat(const int _movement) {
+	movementStat += _movement;
+}
+void Player::addCurrency(const int _currency) {
+	currency += _currency;
+}
+
+
+Player::Player(int healthStat, int attackStat, int movementStat, int currency):
 	Entity(
 		static_cast<char>(uniquePlayers + 65),
 		((rand() % (MAPSIZE * 2 - 2)) + 1),
@@ -16,6 +59,7 @@ Player::Player(int healthStat, int attackStat, int movementStat):
 	healthStat(healthStat),
 	attackStat(attackStat),
 	movementStat(movementStat),
+	currency(currency),
 	remainingMoves(0)
 	
 {
@@ -28,43 +72,80 @@ void Player::beginTurn() {
 	remainingMoves = movementStat;
 }
 
-void Player::move(const int targetX, const int targetY) {
+void BFS(const int sourceX, const int sourceY, int dist[MAPSIZE][MAPSIZE * 2], Entity* gameMap[MAPSIZE][MAPSIZE*2]);
+
+void Player::move(const int targetX, const int targetY, Entity* gameMap[MAPSIZE][MAPSIZE*2]) {
 	int currentX = getPosX();
 	int currentY = getPosY();
+	int dist[MAPSIZE][MAPSIZE * 2];
+	BFS(currentX, currentY, dist, gameMap);
 	
-	int distance = abs(currentX - targetX) + abs(currentY - targetY); // Manhattan distance
-	if(remainingMoves < distance){
+	if(remainingMoves < dist[targetX][targetY]){
 		cout << "[Player " << getID() << "] You do not have enough remaining moves." << endl;
 		return;
 	}
 	
 	setPosX(targetX);
 	setPosY(targetY);
-	remainingMoves -= distance;
+	remainingMoves -= dist[targetX][targetY];
 }
 
-void useItem(const Item& item) {
-	
-}
-
-void buyItem(const Item& item) {
-	
-}
-
-void Player::endTurn() {
+void Player::endTurn(int &currentTurn, int &roundCounter) {
 	remainingMoves = 0;
 	cout << "Ending Turn..." << endl;
-	if (currentTurn >= playerCount-1) {
+	if (currentTurn >= uniquePlayers-1) {
 		currentTurn = 0;
 		roundCounter++;
-		cout << "Moving to round " << roundCounter<<endl;
+		cout << "Moving to round " << roundCounter << endl;
 	}
 	else {
 		currentTurn++;
-
 	}
+}
+
+void Player::attack(Player& target) {
+	int dist = abs(getPosX() - target.getPosX()) + abs(getPosY() - target.getPosY());
+	if(dist > 1) {
+		cout << "The target is not in range." << endl;
+		return;
+	}
+	
+	target.addHealthStat(-attackStat);
+	if(target.getHealthStat() <= 0) target.dead();
 }
 
 void Player::dead() {
 	
+}
+
+void BFS(const int sourceX, const int sourceY, int dist[MAPSIZE][MAPSIZE * 2], Entity* gameMap[MAPSIZE][MAPSIZE*2]) {
+	for(int i = 0; i < MAPSIZE; i++){
+		for(int j = 0; j < MAPSIZE * 2; j++){
+			dist[i][j] = INF;
+		}
+	}
+	
+	dist[sourceX][sourceY] = 0;
+	
+	bool vst[MAPSIZE][MAPSIZE*2]{};
+	
+	queue<pair<int,int>> q;
+	q.push({sourceX, sourceY});
+	
+	while(!q.empty()){
+		int x = q.front().first, y=q.front().second;
+		q.pop();
+		
+		vst[x][y] = true;
+		for(int i = 0; i < 4; i++){
+			int nextX = x + dx[i], nextY = y + dy[i];
+			if(outOfBounds(nextX, nextY)) continue;
+			if(vst[nextX][nextY]) continue;
+			if(gameMap[nextX][nextY]->getID() != ' ') continue;
+			
+			dist[nextX][nextY] = dist[x][y] + 1;
+			vst[nextX][nextY] = true;
+			q.push({nextX, nextY});
+		}
+	}
 }
