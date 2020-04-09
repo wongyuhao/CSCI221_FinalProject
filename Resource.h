@@ -7,6 +7,10 @@
 
 using namespace std;
 
+
+extern vector <Player> playerList;
+
+
 extern vector<Building> buildingList;
 extern vector<WeaponItem> weaponItemList;
 extern vector<HealingItem> healingItemList;
