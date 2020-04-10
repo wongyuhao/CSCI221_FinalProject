@@ -104,7 +104,7 @@ void Display::playerMenu() {
 				else { break; }
 			}
 			
-			currentPlayer->move(tgtX, tgtY); 
+			currentPlayer->move(tgtX, tgtY, gameMap); 
 			break;
 			
 		case 1 :
@@ -129,7 +129,7 @@ void Display::playerMenu() {
 }
 
 //prompts user the string prompt, receives Y/N
-bool promptYN(string prompt) {
+bool promptYN(string prompt) const {
 	cout << prompt << " (Y/N)" << endl;
 	
 	string input;
