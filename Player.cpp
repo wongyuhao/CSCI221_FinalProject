@@ -1,15 +1,18 @@
 #include <queue>
 
 #include "Player.h"
-#include "Config.h"
 
 const int INF = int(1e9);
 const int dx[4] = {0, 0, -1, 1};
 const int dy[4] = {-1, 1, 0, 0};
 
+bool outOfBounds(int X, int Y, Entity* gameMap[MAPHEIGHT][MAPWIDTH]) {
+	return (X <= 0 || X >= MAPHEIGHT-1 || Y <= 0 || Y >=MAPWIDTH-1);
+}
+
 int Player::uniquePlayers = 0;
 
-int Player::getPlayerCount()  {
+int Player::getPlayerCount() {
 	return uniquePlayers;
 }
 
@@ -50,8 +53,8 @@ void Player::addCurrency(const int _currency) {
 Player::Player(int healthStat, int attackStat, int movementStat, int currency):
 	Entity(
 		static_cast<char>(uniquePlayers + 65),
-		uniform_int_distribution<int>(1, MAPHEIGHT-1)(rng),
-		uniform_int_distribution<int>(1, MAPWIDTH-1)(rng)
+		uniform_int_distribution<int>(1, MAPWIDTH-2)(rng),
+		uniform_int_distribution<int>(1, MAPHEIGHT-2)(rng)
 	),
 	healthStat(healthStat),
 	attackStat(attackStat),
@@ -69,22 +72,24 @@ void Player::beginTurn() {
 	remainingMoves = movementStat;
 }
 
+// Note: source/target/current X/Y are the first/second indices of the array respectively (vertical/horizontal)
+
 void BFS(const int sourceX, const int sourceY, int dist[MAPHEIGHT][MAPWIDTH], Entity* gameMap[MAPHEIGHT][MAPWIDTH]);
 
-void Player::move(const int targetX, const int targetY, Entity* gameMap[MAPHEIGHT][MAPWIDTH]) {
-	int currentX = getPosX();
-	int currentY = getPosY();
+void Player::move(const int targetY, const int targetX, Entity* gameMap[MAPHEIGHT][MAPWIDTH]) {
+	int currentY = getPosX();
+	int currentX = getPosY();
 	int dist[MAPHEIGHT][MAPWIDTH];
 	BFS(currentX, currentY, dist, gameMap);
 	
-	if(remainingMoves < dist[targetX-1][targetY-1]){
+	if(remainingMoves < dist[targetX][targetY]){
 		cout << "[Player " << getID() << "] You do not have enough remaining moves." << endl;
 		return;
 	}
 	
-	setPosX(targetX-1);
-	setPosY(targetY-1);
-	remainingMoves -= dist[targetX-1][targetY-1];
+	setPosX(targetX);
+	setPosY(targetY);
+	remainingMoves -= dist[targetX][targetY];
 }
 
 void Player::endTurn(int &currentTurn, int &roundCounter) {
