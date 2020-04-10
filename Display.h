@@ -9,13 +9,12 @@
 #include "Resource.h"
 
 using namespace std;
-
+vector <Player> playerList;
 class Display
 {
 private:
-	int currentTurn = 0;
-	int roundCounter = 1;
-	int playerCount = 0;
+	
+	
 	
 	Entity* gameMap[MAPSIZE][MAPSIZE * 2];
 	
@@ -25,7 +24,7 @@ public:
 	Display()
 	{
 		
-		playerCount = playerList.size();
+		
 		initMap();
 		printMap();
 	}
@@ -38,7 +37,7 @@ public:
 	}
 	
 	inline void incrementCurrentTurn(){
-		currentTurn++; currentTurn %= playerCount;
+		currentTurn++; currentTurn %= playerList.size();
 	}
 	
 	bool promptYN(string) const;

@@ -10,13 +10,14 @@
 #include "Entity.h"
 #include "Config.h"
 
+
 using namespace std;
 
 class Player: public Entity
 {
 
 private:
-	static int uniquePlayers;
+	
 
 	int healthStat;
 	int attackStat;
@@ -27,7 +28,7 @@ private:
 	
 public:
 	Player(int healthStat = 100, int attackStat = 10, int movementStat = 10, int currency = 0);
-	static int getPlayerCount();
+	
 	
 	int getHealthStat() const;
 	int getAttackStat() const;

@@ -14,19 +14,24 @@ int main() {
 	cout << "Enter number of players: ";
 	int playerCount;
 	cin >> playerCount;
-
+	Display display;
+	for (int i = 0; i < playerCount && i < 10; i++) {
+		playerList.push_back(Player());
+	}
 	
+	display.printMap();
 	
 	buildingList.push_back(Building(SHOP1));
 	buildingList.push_back(Building(SHOP2));
 	buildingList.push_back(Building(SHOP3));
 	buildingList.push_back(Building(SHOP4));
 
-
-	for (int i = 0; i < playerCount && i<10; i++) {
-		playerList.push_back(Player());
+	while (playerList.size() > 1) {
+		display.playerMenu();
 	}
+	
 
-	Display display;
-	display.printMap();
+	
+
+	
 }

@@ -10,10 +10,9 @@ bool outOfBounds(int x, int y) {
 	return (x < 0 || x >= MAPSIZE || y < 0 || y >= MAPSIZE * 2);
 }
 
-int Player::uniquePlayers = 0;
 
 int Player::getPlayerCount()  {
-	return uniquePlayers;
+	return playerList.size();
 }
 
 int Player::getHealthStat() const {
@@ -52,7 +51,7 @@ void Player::addCurrency(const int _currency) {
 
 Player::Player(int healthStat, int attackStat, int movementStat, int currency):
 	Entity(
-		static_cast<char>(uniquePlayers + 65),
+		static_cast<char>(playerList.size() + 65),
 		((rand() % (MAPSIZE * 2 - 2)) + 1),
 		((rand() % (MAPSIZE - 2)) + 1)
 	),
@@ -63,7 +62,7 @@ Player::Player(int healthStat, int attackStat, int movementStat, int currency):
 	remainingMoves(0)
 	
 {
-	Player::uniquePlayers++;	
+	
 	cout << getPlayerCount()
 		<<": Spawning Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
 }
@@ -93,7 +92,7 @@ void Player::move(const int targetX, const int targetY, Entity* gameMap[MAPSIZE]
 void Player::endTurn(int &currentTurn, int &roundCounter) {
 	remainingMoves = 0;
 	cout << "Ending Turn..." << endl;
-	if (currentTurn >= uniquePlayers-1) {
+	if (currentTurn >= playerList.size()-1) {
 		currentTurn = 0;
 		roundCounter++;
 		cout << "Moving to round " << roundCounter << endl;
@@ -111,11 +110,12 @@ void Player::attack(Player& target) {
 	}
 	
 	target.addHealthStat(-attackStat);
+
 	if(target.getHealthStat() <= 0) target.dead();
 }
 
 void Player::dead() {
-	uniquePlayers--;
+	
 	
 }
 

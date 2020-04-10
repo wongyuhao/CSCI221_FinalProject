@@ -1,8 +1,9 @@
 #include "Resource.h"
 
-vector<Player> playerList = {
+int turnCounter = 0;
 
-};
+int rouundCounter = 1;
+
 
 vector<Building> buildingList = {
 
