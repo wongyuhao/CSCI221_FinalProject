@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-constexpr int MAPSIZE = 30;
+constexpr int MAPHEIGHT = 30;
+constexpr int MAPWIDTH = MAPHEIGHT * 2;
 
 #endif

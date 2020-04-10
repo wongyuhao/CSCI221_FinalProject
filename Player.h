@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ctime>
 #include <random>
+#include <chrono>
 #include <vector>
 #include <map>
 
@@ -12,6 +13,10 @@
 
 
 using namespace std;
+
+namespace{
+	mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+}
 
 class Player: public Entity
 {
@@ -54,7 +59,7 @@ public:
 	
 	void beginTurn();
 	
-	void move(const int targetX, const int targetY, Entity* gameMap[MAPSIZE][MAPSIZE*2]);
+	void move(const int targetY, const int targetX, Entity* gameMap[MAPHEIGHT][MAPWIDTH]);
 	void attack(Player& target);
 	void endTurn(int &currentTurn, int &roundCounter);
 	void dead();
