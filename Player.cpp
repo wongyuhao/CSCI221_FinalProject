@@ -7,10 +7,6 @@ const int INF = int(1e9);
 const int dx[4] = {0, 0, -1, 1};
 const int dy[4] = {-1, 1, 0, 0};
 
-bool outOfBounds(int x, int y, Entity* gameMap[MAPHEIGHT][MAPWIDTH]) {
-	return (x < 0 || x >= MAPHEIGHT || y < 0 || y >= MAPWIDTH);
-}
-
 int Player::uniquePlayers = 0;
 
 int Player::getPlayerCount()  {
@@ -54,8 +50,8 @@ void Player::addCurrency(const int _currency) {
 Player::Player(int healthStat, int attackStat, int movementStat, int currency):
 	Entity(
 		static_cast<char>(uniquePlayers + 65),
-		((rand() % (MAPWIDTH - 2)) + 1),
-		((rand() % (MAPHEIGHT - 2)) + 1)
+		uniform_int_distribution<int>(1, MAPHEIGHT-1)(rng),
+		uniform_int_distribution<int>(1, MAPWIDTH-1)(rng)
 	),
 	healthStat(healthStat),
 	attackStat(attackStat),
