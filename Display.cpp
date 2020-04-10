@@ -51,19 +51,19 @@ void Display::initMap() {
 				else {
 
 					//populate buildings
-					for (int i = 0; i < local_BL.size(); i++) {
-						gameMap[local_BL[i].getPosY()][local_BL[i].getPosX()] = &local_BL[i];
+					for (int i = 0; i < buildingList.size(); i++) {
+						gameMap[buildingList[i].getPosY()][buildingList[i].getPosX()] = &buildingList[i];
 					}
 
 					//populate players
-					for (int i = 0; i < local_PL.size(); i++) {
-						if (gameMap[local_PL[i].getPosY()][local_PL[i].getPosX()]->getID() == ' ') {
-							gameMap[local_PL[i].getPosY()][local_PL[i].getPosX()] = &local_PL[i];
+					for (int i = 0; i < playerList.size(); i++) {
+						if (gameMap[playerList[i].getPosY()][playerList[i].getPosX()]->getID() == ' ') {
+							gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
 						}
 						else {
-							int move = local_PL[i].getPosX();
-							local_PL[i].setPosX(move++);
-							gameMap[local_PL[i].getPosY()][local_PL[i].getPosX()] = &local_PL[i];
+							int move = playerList[i].getPosX();
+							playerList[i].setPosX(move++);
+							gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
 
 						}
 					}
@@ -81,7 +81,7 @@ void Display::initMap() {
 }
 
 void Display::playerMenu() {
-	Player* currentPlayer = &local_PL[currentTurn];
+	Player* currentPlayer = &playerList[currentTurn];
 	cout << "Player " << currentPlayer->getID()<< "'s Turn:" << endl;
 	cout <<"[" <<0 <<"] " << "MOVE" << endl;
 	cout <<"[" <<1<<"] " << "ATTACK"<< endl;
@@ -123,7 +123,7 @@ void Display::playerMenu() {
 	}
 	
 	
-	local_PL[currentTurn].endTurn(currentTurn, roundCounter);
+	playerList[currentTurn].endTurn(currentTurn, roundCounter);
 
 	
 }

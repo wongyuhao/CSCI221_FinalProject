@@ -16,17 +16,15 @@ private:
 	int currentTurn = 0;
 	int roundCounter = 1;
 	int playerCount = 0;
-	vector <Building> local_BL;
-	vector <Player> local_PL;
+	
 	Entity* gameMap[MAPSIZE][MAPSIZE * 2];
 	
 	void initMap();
 	
 public:
-	Display(vector<Building> buildingList, vector<Player> playerList)
+	Display()
 	{
-		local_BL = buildingList;
-		local_PL = playerList;
+		
 		playerCount = playerList.size();
 		initMap();
 		printMap();

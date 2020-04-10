@@ -115,6 +115,7 @@ void Player::attack(Player& target) {
 }
 
 void Player::dead() {
+	uniquePlayers--;
 	
 }
 

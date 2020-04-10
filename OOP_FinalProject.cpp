@@ -15,8 +15,7 @@ int main() {
 	int playerCount;
 	cin >> playerCount;
 
-	vector <Player> playerList;
-	vector <Building> buildingList;
+	
 	
 	buildingList.push_back(Building(SHOP1));
 	buildingList.push_back(Building(SHOP2));
@@ -28,5 +27,6 @@ int main() {
 		playerList.push_back(Player());
 	}
 
-	Display display(buildingList, playerList);
+	Display display;
+	display.printMap();
 }

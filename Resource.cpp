@@ -1,7 +1,11 @@
 #include "Resource.h"
 
+vector<Player> playerList = {
+
+};
+
 vector<Building> buildingList = {
-	
+
 };
 
 vector<WeaponItem> weaponItemList = {
