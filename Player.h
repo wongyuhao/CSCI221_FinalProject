@@ -44,7 +44,7 @@ public:
 	
 	void beginTurn();
 	
-	void move(const int targetX, const int targetY, Entity* gameMap[MAPSIZE][MAPSIZE*2]);
+	void move(const int targetX, const int targetY, Entity* gameMap[MAPHEIGHT][MAPWIDTH]);
 	void attack(Player& target);
 
 	void endTurn(int &currentTurn, int &roundCounter);

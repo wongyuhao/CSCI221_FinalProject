@@ -3,15 +3,15 @@
 
 void Display::printMap() const {
 	cout << "Printing Map..." << endl;
-	for (int col = 0; col < MAPSIZE * 2; col++) {
+	for (int col = 0; col < MAPHEIGHT; col++) {
 		if (col % 2 == 0) {
 			cout << col % 10;
 		}
 		else cout << " ";
 	}
 	cout << endl;
-	for (int row = 0; row < MAPSIZE ; row++) {
-		for (int col = 0; col < MAPSIZE*2; col++) {
+	for (int row = 0; row < MAPHEIGHT; row++) {
+		for (int col = 0; col < MAPWIDTH; col++) {
 			cout<< gameMap[row][col]->getID();
 		}
 		cout << " " << row;
@@ -26,26 +26,26 @@ void Display::initMap() {
 
 	
 
-	for (int row = 0; row < MAPSIZE; row++) {
-		for (int col = 0; col < MAPSIZE*2; col++) {
+	for (int row = 0; row < MAPHEIGHT; row++) {
+		for (int col = 0; col < MAPWIDTH; col++) {
 			gameMap[row][col] = new Entity(' ', row, col);
 		}
 	}
 
 
 
-	for (int row = 0; row < MAPSIZE; row++) {
+	for (int row = 0; row < MAPHEIGHT; row++) {
 
-		if (row == 0 || row == MAPSIZE-1) { //print borders
+		if (row == 0 || row == MAPHEIGHT-1) { //print borders
 
-			for (int col = 0; col < MAPSIZE*2; col++) {
+			for (int col = 0; col < MAPWIDTH; col++) {
 				gameMap[row][col] = new Entity('#',row,col);//print borders
 			}
 
 		}
 		else {  
-			for (int col = 0; col < MAPSIZE*2; col++) {
-				if (col == 0 || col == MAPSIZE*2 - 1) {
+			for (int col = 0; col < MAPWIDTH; col++) {
+				if (col == 0 || col == MAPWIDTH - 1) {
 					gameMap[row][col] = new Entity('#', row, col);//print borders
 				}
 				else {
@@ -97,8 +97,8 @@ void Display::playerMenu() {
 			
 			int tgtX, tgtY;
 			while (true) {
-				cin >> tgtX >> tgtY;
-				if ((tgtX >= MAPSIZE * 2 - 1 || tgtX <= 0) && (tgtY >= MAPSIZE - 1 || tgtY <= 0)) {
+				cin >> tgtY >> tgtX;
+				if ((tgtX >= MAPWIDTH - 1 || tgtX <= 0) && (tgtY >= MAPHEIGHT - 1 || tgtY <= 0)) {
 					cout << "Invalid Coordinates. Try again.";
 				}
 				else { break; }
@@ -129,7 +129,7 @@ void Display::playerMenu() {
 }
 
 //prompts user the string prompt, receives Y/N
-bool promptYN(string prompt) const {
+bool Display::promptYN(string prompt) const {
 	cout << prompt << " (Y/N)" << endl;
 	
 	string input;
