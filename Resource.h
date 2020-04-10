@@ -8,7 +8,10 @@
 using namespace std;
 
 
-extern vector <Player> playerList;
+
+extern int currentTurn;
+extern int roundCounter;
+
 
 
 extern vector<Building> buildingList;
