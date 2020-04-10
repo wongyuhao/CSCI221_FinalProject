@@ -98,8 +98,8 @@ void Display::playerMenu() {
 			int tgtX, tgtY;
 			while (true) {
 				cin >> tgtY >> tgtX;
-				if ((tgtX >= MAPWIDTH - 1 || tgtX <= 0) && (tgtY >= MAPHEIGHT - 1 || tgtY <= 0)) {
-					cout << "Invalid Coordinates. Try again.";
+				if (tgtX >= MAPHEIGHT - 1 || tgtX <= 0 || tgtY >= MAPWIDTH - 1 || tgtY <= 0) {
+					cout << "Invalid Coordinates. Try again.\n";
 				}
 				else { break; }
 			}
