@@ -27,10 +27,6 @@ int WeaponItem::getRange() const {
 	return range;
 }
 
-void WeaponItem::use(Player& target) {
-	target.addHealthStat(-stat);
-}
-
 void CubeWeaponItem::use(const Entity& location, vector<Player>& playerList) {
 	for(Player player: playerList) {
 		if(	location.getPosX() - radius < player.getPosX() && player.getPosX() < location.getPosX() + radius && 

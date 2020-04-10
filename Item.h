@@ -35,7 +35,6 @@ public:
 	WeaponItem(int id, string name, int cost, int stat, int range): Item(id, name, cost, stat), range(range) {}
 	
 	int getRange() const;
-	void use(Player& target);
 };
 
 class PlayerWeaponItem: public WeaponItem {
@@ -60,7 +59,8 @@ class HealingItem: public Item {
 public:
 	HealingItem(){}
 	HealingItem(int id, string name, int cost, int stat): Item(id, name, cost, stat) {}
-	void use(Player& target);
+	
+	void use(Player& target) override;
 };
 
 
@@ -68,7 +68,8 @@ class MovementItem: public Item {
 public:
 	MovementItem(){}
 	MovementItem(int id, string name, int cost, int stat): Item(id, name, cost, stat) {}
-	void use(Player& target);
+	
+	void use(Player& target) override;
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Building.h"
 #include "Resource.h"
+#include "Config.h"
 
 using namespace std;
 vector <Player> playerList;
@@ -16,7 +17,7 @@ private:
 	
 	
 	
-	Entity* gameMap[MAPSIZE][MAPSIZE * 2];
+	Entity* gameMap[MAPHEIGHT][MAPWIDTH];
 	
 	void initMap();
 	
@@ -31,7 +32,7 @@ public:
 	void printMap() const;
 	void playerMenu();
 	inline void bumpConsole() {
-		for (int i = 0; i < MAPSIZE; i++) {
+		for (int i = 0; i < MAPHEIGHT; i++) {
 			cout << endl;
 		}
 	}
