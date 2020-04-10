@@ -10,24 +10,32 @@ using namespace std;
 
 int main() {
 	srand(time(NULL));
+
 	
 	cout << "Enter number of players: ";
 	int playerCount;
 	cin >> playerCount;
 	Display display;
 	for (int i = 0; i < playerCount && i < 10; i++) {
-		playerList.push_back(Player());
+		char code = 'a';
+		playerList.push_back(
+			Player(
+				playerList, 
+				code++, 
+				((rand() % (MAPSIZE * 2 - 2)) + 1),
+				((rand() % (MAPSIZE - 2)) + 1)
+			)
+		);
 	}
 	
-	display.printMap();
 	
-	buildingList.push_back(Building(SHOP1));
-	buildingList.push_back(Building(SHOP2));
-	buildingList.push_back(Building(SHOP3));
-	buildingList.push_back(Building(SHOP4));
+	
+	
 
 	while (playerList.size() > 1) {
+		display.printMap();
 		display.playerMenu();
+		
 	}
 	
 

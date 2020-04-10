@@ -9,7 +9,7 @@ private:
 	char ID;
 
 public:
-	Entity(char id, int x, int y):
+	Entity( int x, int y, char id):
 	posX(x),
 	posY(y),
 	ID(id)

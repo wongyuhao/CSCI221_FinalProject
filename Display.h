@@ -9,24 +9,25 @@
 #include "Resource.h"
 
 using namespace std;
-vector <Player> playerList;
+extern vector <Player> playerList;
 class Display
 {
 private:
 	
 	
 	
-	Entity* gameMap[MAPSIZE][MAPSIZE * 2];
+	
 	
 	void initMap();
 	
 public:
+	Entity* gameMap[MAPSIZE][MAPSIZE * 2];
 	Display()
 	{
 		
 		
 		initMap();
-		printMap();
+		
 	}
 	void printMap() const;
 	void playerMenu();

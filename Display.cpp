@@ -1,6 +1,10 @@
 #include "Display.h"
 #include "Resource.h"
 
+vector <Player> playerList = {
+
+};
+
 void Display::printMap() const {
 	cout << "Printing Map..." << endl;
 	for (int col = 0; col < MAPSIZE * 2; col++) {
@@ -105,9 +109,12 @@ void Display::playerMenu() {
 			}
 			
 			currentPlayer->move(tgtX, tgtY,gameMap); 
+			incrementCurrentTurn();
+			
 			break;
 			
 		case 1 :
+			//currentPlayer->attack();
 			break;
 			
 		case 2 :
@@ -115,7 +122,7 @@ void Display::playerMenu() {
 			break;
 			
 		case 3 :
-			currentPlayer->endTurn(currentTurn, roundCounter);
+			currentPlayer->endTurn(currentTurn, roundCounter);incrementCurrentTurn();
 			break;
 			
 		default:

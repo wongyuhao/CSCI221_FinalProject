@@ -18,7 +18,7 @@ class Player: public Entity
 
 private:
 	
-
+	vector <Player> pListPtr;
 	int healthStat;
 	int attackStat;
 	int movementStat;
@@ -27,7 +27,16 @@ private:
 	map<int,int> equippedItems; //Item ID -> count
 	
 public:
-	Player(int healthStat = 100, int attackStat = 10, int movementStat = 10, int currency = 0);
+	Player(
+		vector <Player>& playerList,
+		int posX,
+		int posY,
+		char ID,
+		int healthStat = 100,
+		int attackStat = 10,
+		int movementStat = 10,
+		int currency = 0
+	);
 	
 	
 	int getHealthStat() const;
@@ -47,9 +56,7 @@ public:
 	
 	void move(const int targetX, const int targetY, Entity* gameMap[MAPSIZE][MAPSIZE*2]);
 	void attack(Player& target);
-
 	void endTurn(int &currentTurn, int &roundCounter);
-	
 	void dead();
 };
 
