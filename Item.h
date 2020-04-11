@@ -9,20 +9,20 @@ using namespace std;
 
 class Item: public Type {
 protected:
-	string name;
-	int cost;
+	string name; //name of the object
+	int cost; //monetary cost of the object
 	int stat; // damage/heal/extra movement, depending on the type of item
 	
 public:
-	Item(): Type(), name(""), cost(0), stat(0) {}
-	Item(int id, string name, int cost, int stat)
+	Item(): Type(), name(""), cost(0), stat(0) {} //default constructor for testing
+	Item(int id, string name, int cost, int stat) //constructor 
 	: Type(id), name(name), cost(cost), stat(stat) {}
 	
-	string getName() const;
-	int getCost() const;
-	int getStat() const;
-	void buyItem(Player& player) const;
-	virtual void use(Player& target) = 0;
+	string getName() const; //accessor function
+	int getCost() const; //accessor function
+	int getStat() const; //accessor function
+	void buyItem(Player& player) const; //if money is sufficient, player
+	virtual void use(Player& target) = 0; //
 };
 
 

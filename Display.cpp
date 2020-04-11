@@ -1,7 +1,7 @@
 #include "Display.h"
 #include "Resource.h"
 
-void Display::printMap() const {
+void Display::printMap() const { 
 	cout << "Printing Map..." << endl;
 	for (int col = 0; col < MAPHEIGHT; col++) {
 		if (col % 2 == 0) {

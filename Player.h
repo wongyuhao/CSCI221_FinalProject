@@ -35,14 +35,14 @@ public:
 	Player(int healthStat = 100, int attackStat = 10, int movementStat = 10, int currency = 0);
 	
 	
-	int getHealthStat() const;
-	int getAttackStat() const;
-	int getMovementStat() const;
-	int getCurrency() const;
-	int getRemainingMoves() const;
+	int getHealthStat() const; //returns remaining health
+	int getAttackStat() const; //returns damage that player can inflict
+	int getMovementStat() const; //returns distance that player can move in 1 turn
+	int getCurrency() const; //returns value of player's money
+	int getRemainingMoves() const; //returns remaining moves in the turn
 	map<int,int>& getEquippedItems();
 	
-	void addHealthStat(const int _health);
+	void addHealthStat(const int _health); 
 	void addAttackStat(const int _attack);
 	void addMovementStat(const int _movement);
 	void addCurrency(const int _currency);
