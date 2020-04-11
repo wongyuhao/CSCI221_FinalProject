@@ -14,12 +14,13 @@ int main() {
 	cout << "Enter number of players: ";
 	int playerCount;
 	cin >> playerCount;
-	Display display;
+	
 	for (int i = 0; i < playerCount && i < 10; i++) {
 		char playerID = i+65;
 		playerList.push_back(Player(playerID));
 	}
 	
+	Display display;
 	display.printMap();
 	
 	buildingList.push_back(Building(SHOP1));
@@ -33,6 +34,6 @@ int main() {
 	
 
 	
-
+	
 	
 }

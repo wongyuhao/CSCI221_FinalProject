@@ -4,23 +4,23 @@
 class Entity
 {
 private:
+	char ID; // ID of the object that is displayed in the console
 	int posX; //stores horizontal coordinates of the object
 	int posY; //stores vertical coordinates of the object
-	char ID; // ID of the object that is displayed in the console
 
 public:
-	Entity( int x, int y, char id):
+	Entity(char id, int x, int y):
+	ID(id),
 	posX(x),
-	posY(y),
-	ID(id)
+	posY(y)
 	{
 		
 	}
 
 	Entity(): //default constructor used for testing
+	ID(' '),
 	posX(-1),
-	posY(-1),
-	ID(' ')
+	posY(-1)
 	{
 	
 	}

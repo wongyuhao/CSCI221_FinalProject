@@ -26,15 +26,11 @@ void Display::initMap() {
 
 	cout << "Initializing map..." << endl;
 
-	
-
 	for (int row = 0; row < MAPHEIGHT; row++) {
 		for (int col = 0; col < MAPWIDTH; col++) {
 			gameMap[row][col] = new Entity(' ', row, col);
 		}
 	}
-
-
 
 	for (int row = 0; row < MAPHEIGHT; row++) {
 
@@ -50,34 +46,28 @@ void Display::initMap() {
 				if (col == 0 || col == MAPWIDTH - 1) {
 					gameMap[row][col] = new Entity('#', row, col);//print borders
 				}
-				else {
-
-					//populate buildings
-					for (int i = 0; i < buildingList.size(); i++) {
-						gameMap[buildingList[i].getPosY()][buildingList[i].getPosX()] = &buildingList[i];
-					}
-
-					//populate players
-					for (int i = 0; i < playerList.size(); i++) {
-						if (gameMap[playerList[i].getPosY()][playerList[i].getPosX()]->getID() == ' ') {
-							gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
-						}
-						else {
-							int move = playerList[i].getPosX();
-							playerList[i].setPosX(move++);
-							gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
-
-						}
-					}
-				}
-
-
-				
 			}
+		}
+	}
+	
+	//populate buildings
+	for (int i = 0; i < buildingList.size(); i++) {
+		gameMap[buildingList[i].getPosY()][buildingList[i].getPosX()] = &buildingList[i];
+	}
+
+	//populate players
+	for (int i = 0; i < playerList.size(); i++) {
+		if (gameMap[playerList[i].getPosY()][playerList[i].getPosX()]->getID() == ' ') {
+			gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
+		}
+		else {
+			int move = playerList[i].getPosX();
+			playerList[i].setPosX(++move);
+			gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
 
 		}
-
 	}
+	
 	cout << "Initialization Complete!" << endl;
 
 }

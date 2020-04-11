@@ -58,9 +58,9 @@ Player::Player(
 	currency(currency),
 	remainingMoves(0),
 	Entity(
-		(ID),
-		(uniform_int_distribution<int>(1, MAPWIDTH - 2)(rng)),
-		(uniform_int_distribution<int>(1, MAPHEIGHT - 2)(rng))
+		ID,
+		uniform_int_distribution<int>(1, MAPWIDTH - 2)(rng),
+		uniform_int_distribution<int>(1, MAPHEIGHT - 2)(rng)
 	)
 	
 {
