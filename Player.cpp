@@ -10,9 +10,6 @@ bool outOfBounds(int X, int Y, Entity* gameMap[MAPHEIGHT][MAPWIDTH]) {
 	return (X <= 0 || X >= MAPHEIGHT-1 || Y <= 0 || Y >=MAPWIDTH-1);
 }
 
-int Player::getPlayerCount()  {
-	return playerList.size();
-}
 
 int Player::getHealthStat() const {
 	return healthStat;
@@ -48,22 +45,27 @@ void Player::addCurrency(const int _currency) {
 }
 
 
-Player::Player(int healthStat, int attackStat, int movementStat, int currency):
-	Entity(
-		static_cast<char>(uniquePlayers + 65),
-		uniform_int_distribution<int>(1, MAPWIDTH-2)(rng),
-		uniform_int_distribution<int>(1, MAPHEIGHT-2)(rng)
-	),
+Player::Player(
+	char ID,
+	int healthStat, 
+	int attackStat, 
+	int movementStat, 
+	int currency):
+	
 	healthStat(healthStat),
 	attackStat(attackStat),
 	movementStat(movementStat),
 	currency(currency),
-	remainingMoves(0)
+	remainingMoves(0),
+	Entity(
+		ID,
+		uniform_int_distribution<int>(1, MAPWIDTH - 2)(rng),
+		uniform_int_distribution<int>(1, MAPHEIGHT - 2)(rng)
+	)
 	
 {
 	
-	cout << getPlayerCount()
-		<<": Spawning Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
+	cout <<": Spawning Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
 }
 
 void Player::beginTurn() {
@@ -90,17 +92,10 @@ void Player::move(const int targetY, const int targetX, Entity* gameMap[MAPHEIGH
 	remainingMoves -= dist[targetX][targetY];
 }
 
-void Player::endTurn(int &currentTurn, int &roundCounter) {
+void Player::endTurn() {
 	remainingMoves = 0;
-	cout << "Ending Turn..." << endl;
-	if (currentTurn >= playerList.size()-1) {
-		currentTurn = 0;
-		roundCounter++;
-		cout << "Moving to round " << roundCounter << endl;
-	}
-	else {
-		currentTurn++;
-	}
+	cout << "Ending Turn for Player " << getID() << "..." << endl;
+	
 }
 
 void Player::attack(Player& target) {

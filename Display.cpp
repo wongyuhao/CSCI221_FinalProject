@@ -1,7 +1,9 @@
 #include "Display.h"
 #include "Resource.h"
 
-void Display::printMap() const {
+vector<Player> playerList = {};
+
+void Display::printMap() const { 
 	cout << "Printing Map..." << endl;
 	for (int col = 0; col < MAPHEIGHT; col++) {
 		if (col % 2 == 0) {
@@ -24,15 +26,11 @@ void Display::initMap() {
 
 	cout << "Initializing map..." << endl;
 
-	
-
 	for (int row = 0; row < MAPHEIGHT; row++) {
 		for (int col = 0; col < MAPWIDTH; col++) {
 			gameMap[row][col] = new Entity(' ', row, col);
 		}
 	}
-
-
 
 	for (int row = 0; row < MAPHEIGHT; row++) {
 
@@ -48,34 +46,28 @@ void Display::initMap() {
 				if (col == 0 || col == MAPWIDTH - 1) {
 					gameMap[row][col] = new Entity('#', row, col);//print borders
 				}
-				else {
-
-					//populate buildings
-					for (int i = 0; i < buildingList.size(); i++) {
-						gameMap[buildingList[i].getPosY()][buildingList[i].getPosX()] = &buildingList[i];
-					}
-
-					//populate players
-					for (int i = 0; i < playerList.size(); i++) {
-						if (gameMap[playerList[i].getPosY()][playerList[i].getPosX()]->getID() == ' ') {
-							gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
-						}
-						else {
-							int move = playerList[i].getPosX();
-							playerList[i].setPosX(move++);
-							gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
-
-						}
-					}
-				}
-
-
-				
 			}
+		}
+	}
+	
+	//populate buildings
+	for (int i = 0; i < buildingList.size(); i++) {
+		gameMap[buildingList[i].getPosY()][buildingList[i].getPosX()] = &buildingList[i];
+	}
+
+	//populate players
+	for (int i = 0; i < playerList.size(); i++) {
+		if (gameMap[playerList[i].getPosY()][playerList[i].getPosX()]->getID() == ' ') {
+			gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
+		}
+		else {
+			int move = playerList[i].getPosX();
+			playerList[i].setPosX(++move);
+			gameMap[playerList[i].getPosY()][playerList[i].getPosX()] = &playerList[i];
 
 		}
-
 	}
+	
 	cout << "Initialization Complete!" << endl;
 
 }
@@ -93,37 +85,44 @@ void Display::playerMenu() {
 	cout << endl;
 	switch (options) {
 		case 0 :
-			cout << "Enter Target Coordinates (x,y): ";
+			cout << "Enter Target Coordinates (Press Enter After Each Coordinate): "<<endl;
 			
 			int tgtX, tgtY;
 			while (true) {
 				cin >> tgtY >> tgtX;
-				if (tgtX >= MAPHEIGHT - 1 || tgtX <= 0 || tgtY >= MAPWIDTH - 1 || tgtY <= 0) {
+				if ((tgtX >= MAPHEIGHT - 1) || (tgtX <= 0 )|| (tgtY >= MAPWIDTH - 1) || (tgtY <= 0) ){
 					cout << "Invalid Coordinates. Try again.\n";
+					continue;
 				}
 				else { break; }
 			}
 			
 			currentPlayer->move(tgtX, tgtY, gameMap); 
+
 			break;
 			
 		case 1 :
 			break;
 			
 		case 2 :
-			//currentPlayer->interact();
+			//interact
+			incrementCurrentTurn(currentPlayer);
 			break;
 			
 		case 3 :
-			currentPlayer->endTurn(currentTurn, roundCounter);
+			//end turn
+			incrementCurrentTurn(currentPlayer);
+			
 			break;
 			
 		default:
-			currentPlayer->endTurn(currentTurn, roundCounter);
+			//defaults to end turn
+			incrementCurrentTurn(currentPlayer);
+			
+			break;
 	}
 	
-	
-	playerList[currentTurn].endTurn(currentTurn, roundCounter);
+
 
 	
 }
