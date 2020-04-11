@@ -4,9 +4,9 @@
 class Entity
 {
 private:
-	int posX;
-	int posY;
-	char ID;
+	int posX; //stores horizontal coordinates of the object
+	int posY; //stores vertical coordinates of the object
+	char ID; // ID of the object that is displayed in the console
 
 public:
 	Entity( int x, int y, char id):
@@ -17,7 +17,7 @@ public:
 		
 	}
 
-	Entity():
+	Entity(): //default constructor used for testing
 	posX(-1),
 	posY(-1),
 	ID(' ')
@@ -25,26 +25,26 @@ public:
 	
 	}
 
-	inline void setPosX(int x) {
+	inline void setPosX(int x) { //mutator function
 		posX = x;
 	}
 
-	inline int getPosX() const {
+	inline int getPosX() const { //accessor function
 		return posX;
 	}
 
-	inline void setPosY(int y) {
+	inline void setPosY(int y) { //mutator function
 		posY = y;
 	}
 
-	inline int getPosY()const {
+	inline int getPosY()const { //accessor function
 		return posY;
 	}
 
-	inline void setID(char id) {
+	inline void setID(char id) { //mutator function
 		this->ID = id;
 	}
-	inline char getID()const {
+	inline char getID()const { //accessor function
 		return ID;
 	}
 

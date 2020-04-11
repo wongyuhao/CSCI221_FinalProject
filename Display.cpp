@@ -1,11 +1,9 @@
 #include "Display.h"
 #include "Resource.h"
 
-vector <Player> playerList = {
+vector<Player> playerList = {};
 
-};
-
-void Display::printMap() const {
+void Display::printMap() const { 
 	cout << "Printing Map..." << endl;
 	for (int col = 0; col < MAPHEIGHT; col++) {
 		if (col % 2 == 0) {
@@ -97,42 +95,44 @@ void Display::playerMenu() {
 	cout << endl;
 	switch (options) {
 		case 0 :
-			cout << "Enter Target Coordinates (x,y): ";
+			cout << "Enter Target Coordinates (Press Enter After Each Coordinate): "<<endl;
 			
 			int tgtX, tgtY;
 			while (true) {
 				cin >> tgtY >> tgtX;
-				if (tgtX >= MAPHEIGHT - 1 || tgtX <= 0 || tgtY >= MAPWIDTH - 1 || tgtY <= 0) {
+				if ((tgtX >= MAPHEIGHT - 1) || (tgtX <= 0 )|| (tgtY >= MAPWIDTH - 1) || (tgtY <= 0) ){
 					cout << "Invalid Coordinates. Try again.\n";
+					continue;
 				}
 				else { break; }
 			}
 			
-
-			currentPlayer->move(tgtX, tgtY,gameMap); 
-			incrementCurrentTurn();
-			
+			currentPlayer->move(tgtX, tgtY, gameMap); 
 
 			break;
 			
 		case 1 :
-			//currentPlayer->attack();
 			break;
 			
 		case 2 :
-			//currentPlayer->interact();
+			//interact
+			incrementCurrentTurn(currentPlayer);
 			break;
 			
 		case 3 :
-			currentPlayer->endTurn(currentTurn, roundCounter);incrementCurrentTurn();
+			//end turn
+			incrementCurrentTurn(currentPlayer);
+			
 			break;
 			
 		default:
-			currentPlayer->endTurn(currentTurn, roundCounter);
+			//defaults to end turn
+			incrementCurrentTurn(currentPlayer);
+			
+			break;
 	}
 	
-	
-	playerList[currentTurn].endTurn(currentTurn, roundCounter);
+
 
 	
 }
