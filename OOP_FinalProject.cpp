@@ -11,6 +11,7 @@ using namespace std;
 int main() {
 	srand(time(NULL));
 	
+	
 	cout << "Enter number of players: ";
 	int playerCount;
 	cin >> playerCount;
@@ -20,13 +21,16 @@ int main() {
 		playerList.push_back(Player(playerID));
 	}
 	
-	Display display;
-	display.printMap();
-	
 	buildingList.push_back(Building(SHOP1));
 	buildingList.push_back(Building(SHOP2));
 	buildingList.push_back(Building(SHOP3));
 	buildingList.push_back(Building(SHOP4));
+	
+	Display display;
+	
+	display.printMap();
+	
+	
 
 	while (playerList.size() > 1) {
 		display.playerMenu();
