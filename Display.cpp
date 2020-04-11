@@ -5,7 +5,7 @@ vector<Player> playerList = {};
 
 void Display::printMap() const { 
 	cout << "Printing Map..." << endl;
-	for (int col = 0; col < MAPHEIGHT; col++) {
+	for (int col = 0; col < MAPWIDTH; col++) {
 		if (col % 2 == 0) {
 			cout << col % 10;
 		}
@@ -74,57 +74,61 @@ void Display::initMap() {
 
 void Display::playerMenu() {
 	Player* currentPlayer = &playerList[currentTurn];
+	
+	printMap();
+	
 	cout << "Player " << currentPlayer->getID()<< "'s Turn:" << endl;
-	cout <<"[" <<0 <<"] " << "MOVE" << endl;
-	cout <<"[" <<1<<"] " << "ATTACK"<< endl;
-	cout <<"[" <<2 <<"] " <<"INTERACT" << endl;
-	cout <<"[" <<3<<"] " <<"END TURN"<< endl;
-	cout << "CHOOSE AN ACTION: ";
-	int options;
-	cin >> options;
+	cout << "Remaining moves: " << currentPlayer->getRemainingMoves() << endl;
+	cout << "Current coordinate: (" << currentPlayer->getPosX() << ", " << currentPlayer->getPosY() << ")" << endl;
 	cout << endl;
-	switch (options) {
-		case 0 :
-			cout << "Enter Target Coordinates (Press Enter After Each Coordinate): "<<endl;
-			
-			int tgtX, tgtY;
-			while (true) {
-				cin >> tgtY >> tgtX;
-				if ((tgtX >= MAPHEIGHT - 1) || (tgtX <= 0 )|| (tgtY >= MAPWIDTH - 1) || (tgtY <= 0) ){
-					cout << "Invalid Coordinates. Try again.\n";
-					continue;
+	cout <<"[0] MOVE" << endl;
+	cout <<"[1] ATTACK"<< endl;
+	cout <<"[2] INTERACT" << endl;
+	cout <<"[3] END TURN"<< endl;
+	cout << "CHOOSE AN ACTION: ";
+	
+	while(true) {
+		int option;
+		cin >> option;
+		cout << endl;
+		switch (option) {
+			case 0 :
+				//move
+				cout << "Enter Target Coordinates (Press Enter After Each Coordinate): "<<endl;
+				
+				int tgtX, tgtY;
+				while (true) {
+					cin >> tgtX >> tgtY;					
+					if ((tgtX >= MAPWIDTH - 1) || (tgtX <= 0 ) || (tgtY >= MAPHEIGHT - 1) || (tgtY <= 0) ){
+						cout << "Invalid Coordinates. Try again.\n";
+						continue;
+					}
+					else { break; }
 				}
-				else { break; }
-			}
-			
-			currentPlayer->move(tgtX, tgtY, gameMap); 
+				
+				currentPlayer->move(tgtX, tgtY, gameMap); 
 
-			break;
-			
-		case 1 :
-			break;
-			
-		case 2 :
-			//interact
-			incrementCurrentTurn(currentPlayer);
-			break;
-			
-		case 3 :
-			//end turn
-			incrementCurrentTurn(currentPlayer);
-			
-			break;
-			
-		default:
-			//defaults to end turn
-			incrementCurrentTurn(currentPlayer);
-			
-			break;
+				return;
+				
+			case 1 :
+				
+				return;
+				
+			case 2 :
+				//interact
+				incrementCurrentTurn();
+				return;
+				
+			case 3 :
+				//end turn
+				incrementCurrentTurn();
+				return;
+				
+			default:
+				//prompts error message
+				cout << "Invalid choice. Try again." << endl;
+		}
 	}
-	
-
-
-	
 }
 
 //prompts user the string prompt, receives Y/N
