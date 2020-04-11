@@ -32,7 +32,7 @@ private:
 	map<int,int> equippedItems; //Item ID -> count
 	
 public:
-	Player(int healthStat = 100, int attackStat = 10, int movementStat = 10, int currency = 0);
+	Player(char ID,int healthStat = 100, int attackStat = 10, int movementStat = 10, int currency = 0);
 	
 	
 	int getHealthStat() const; //returns remaining health
@@ -53,7 +53,7 @@ public:
 	void move(const int targetY, const int targetX, Entity* gameMap[MAPHEIGHT][MAPWIDTH]);
 	void attack(Player& target);
 
-	void endTurn(int &currentTurn, int &roundCounter);
+	void endTurn();
 	
 	void dead();
 };

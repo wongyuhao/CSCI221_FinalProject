@@ -10,7 +10,7 @@
 #include "Config.h"
 
 using namespace std;
-vector <Player> playerList;
+extern vector <Player> playerList;
 class Display
 {
 private:
@@ -36,7 +36,8 @@ public:
 		}
 	}
 	
-	inline void incrementCurrentTurn(){ //increments to next turn or loops back to first player's turn
+	inline void incrementCurrentTurn(Player* pl){ //increments to next turn or loops back to first player's turn
+		pl->endTurn();
 		currentTurn++; currentTurn %= playerList.size();
 	}
 	

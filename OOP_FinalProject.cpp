@@ -16,7 +16,8 @@ int main() {
 	cin >> playerCount;
 	Display display;
 	for (int i = 0; i < playerCount && i < 10; i++) {
-		playerList.push_back(Player());
+		char playerID = i+65;
+		playerList.push_back(Player(playerID));
 	}
 	
 	display.printMap();

@@ -1,8 +1,8 @@
 #include "Resource.h"
 
-int turnCounter = 0;
+int currentTurn = 0;
 
-int rouundCounter = 1;
+int roundCounter = 1;
 
 
 vector<Building> buildingList = {
