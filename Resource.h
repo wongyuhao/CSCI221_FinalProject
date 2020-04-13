@@ -7,16 +7,10 @@
 
 using namespace std;
 
-
-
 extern int currentTurn;
 extern int roundCounter;
 
-
-
 extern vector<Building> buildingList;
-extern vector<WeaponItem> weaponItemList;
-extern vector<HealingItem> healingItemList;
-extern vector<MovementItem> movementItemList;
+extern vector<Item> itemList;
 
 #endif
