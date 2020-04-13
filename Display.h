@@ -11,12 +11,11 @@
 
 using namespace std;
 extern vector <Player> playerList;
+extern int aliveCount;
+
 class Display
 {
 private:
-	
-	
-	
 	Entity* gameMap[MAPHEIGHT][MAPWIDTH]; //2D array of all entity objects used in the game
 	
 	void initMap(); //initializes the gameMap with objects from building, player, and Entity vectors in Resource.h
@@ -25,10 +24,12 @@ public:
 
 	Display() //constructor 
 	{
-		initMap(); 
-		printMap();
+		aliveCount = playerList.size();
+		initMap();
 	}
 	void printMap() const; //iterates through the gameMap array to print every element in a grid
+	void printPlayerStat(Player* player, bool active = true) const;
+	void removeDeadPlayers(const vector<int>& deadPlayers); //removes dead players from map
 	void playerMenu(); //switch menu to prompt specific player for action during their turn
 	inline void bumpConsole() { //prints newlines to push the old map out of view
 		for (int i = 0; i < MAPHEIGHT; i++) {
@@ -36,9 +37,11 @@ public:
 		}
 	}
 	
-	inline void incrementCurrentTurn(Player* pl){ //increments to next turn or loops back to first player's turn
-		pl->endTurn();
+	inline void incrementCurrentTurn(){ //increments to next turn or loops back to first player's turn
+		playerList[currentTurn].endTurn();
 		currentTurn++; currentTurn %= playerList.size();
+		playerList[currentTurn].beginTurn();
+		printMap();
 	}
 	
 	bool promptYN(string) const; //prompts the user for yes/no answer and returns boolean value
