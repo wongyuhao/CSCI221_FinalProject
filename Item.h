@@ -3,6 +3,7 @@
 
 #include "Type.h"
 #include "Player.h"
+#include "Config.h"
 #include <string>
 
 using namespace std;
@@ -18,11 +19,12 @@ public:
 	Item(int id, string name, int cost, int stat) //constructor 
 	: Type(id), name(name), cost(cost), stat(stat) {}
 	
-	string getName() const; //accessor function
-	int getCost() const; //accessor function
-	int getStat() const; //accessor function
-	void buyItem(Player& player) const; //if money is sufficient, player
-	virtual void use(Player& target) = 0; //
+	//accessor functions
+	string getName() const;
+	int getCost() const;
+	int getStat() const;
+	void buyItem(Player& player) const;
+	virtual vector<int> use(Player* const user, vector<Player>& playerList) const = 0; //return value: dead players indices caused by item use
 };
 
 
@@ -41,6 +43,8 @@ class PlayerWeaponItem: public WeaponItem {
 public:
 	PlayerWeaponItem(){}
 	PlayerWeaponItem(int id, string name, int cost, int stat, int range): WeaponItem(id, name, cost, stat, range) {}
+	
+	vector<int> use(Player* const user, vector<Player>& playerList) const override;
 };
 
 class CubeWeaponItem: public WeaponItem {
@@ -51,7 +55,9 @@ public:
 	CubeWeaponItem(): radius(0) {}
 	CubeWeaponItem(int id, string name, int cost, int stat, int range, int radius): WeaponItem(id, name, cost, stat, range), radius(radius) {}
 	
-	void use(const Entity& location, vector<Player>& playerList);
+	int getRadius() const;
+	
+	vector<int> use(Player* const, vector<Player>& playerList) const override;
 };
 
 
@@ -60,7 +66,7 @@ public:
 	HealingItem(){}
 	HealingItem(int id, string name, int cost, int stat): Item(id, name, cost, stat) {}
 	
-	void use(Player& target) override;
+	vector<int> use(Player* const user, vector<Player>& playerList) const override;
 };
 
 
@@ -69,7 +75,7 @@ public:
 	MovementItem(){}
 	MovementItem(int id, string name, int cost, int stat): Item(id, name, cost, stat) {}
 	
-	void use(Player& target) override;
+	vector<int> use(Player* const user, vector<Player>& playerList) const override;
 };
 
 #endif
