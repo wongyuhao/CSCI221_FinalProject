@@ -9,35 +9,35 @@
 using namespace std;
 
 int main() {
-	srand(time(NULL));
-	
-	
 	cout << "Enter number of players: ";
 	int playerCount;
 	cin >> playerCount;
 	
+	//initialize Player objects
 	for (int i = 0; i < playerCount && i < 10; i++) {
 		char playerID = i+65;
 		playerList.push_back(Player(playerID));
 	}
 	
-	buildingList.push_back(Building(SHOP1));
-	buildingList.push_back(Building(SHOP2));
-	buildingList.push_back(Building(SHOP3));
-	buildingList.push_back(Building(SHOP4));
+	//initialize items
+	for (int i = 0; i < itemList.size(); i++) {
+		itemList[i].setID(i);
+	}
 	
 	Display display;
 	
+	//first turn
 	display.printMap();
+	playerList[currentTurn].beginTurn();
 	
-	
-
-	while (playerList.size() > 1) {
+	while (aliveCount > 1) {
 		display.playerMenu();
 	}
 	
-
+	while(playerList[currentTurn].getHealthStat() <= 0) {
+		currentTurn = (currentTurn + 1) % playerList.size();
+	}
 	
-	
-	
+	cout << endl << string(10, '=') << " GAME END " << string(10, '=') << endl;
+	cout << "Player " << playerList[currentTurn].getID() << " wins!" << endl;
 }
