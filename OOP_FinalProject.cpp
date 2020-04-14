@@ -9,6 +9,8 @@
 using namespace std;
 
 int main() {
+	cout << "Maximize the window for the full experience." << endl << endl;
+	
 	cout << "Enter number of players: ";
 	int playerCount;
 	cin >> playerCount;
@@ -27,7 +29,6 @@ int main() {
 	Display display;
 	
 	//first turn
-	display.printMap();
 	playerList[currentTurn].beginTurn();
 	
 	while (aliveCount > 1) {
