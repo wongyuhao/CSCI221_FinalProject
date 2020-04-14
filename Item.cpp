@@ -7,15 +7,26 @@ bool outOfBounds(int X, int Y) {
 }
 
 //buy function
-void Item::buyItem(Player& player) const {
-	if(player.getCurrency() < cost){
-		cout << "Not enough currency." << endl;
-		return;
+void Item::buyItem(Player* const player) const {
+	//check that user has enough currency
+	if(player->getCurrency() < getCost()) {
+		cout << "Insufficient currency." << endl;
+		system("pause"); return;
 	}
 	
-	player.addCurrency(-cost);
-	player.addEquippedItem(getID(), getType(), 1);
-	cout << "Successfully bought a(n) " << name << endl;
+	//if the selected item will overwrite the user's weapon/energy item, warn the user
+	if((getType()[0] == 'W' && player->getEquippedWeaponItem().first != -1) ||
+	   (getType()[0] == 'E' && player->getEquippedEnergyItem().first != -1)
+	)
+	{
+		string itemType = getType();
+		itemType[0] = tolower(itemType[0]);
+		if(!promptYN("This will replace your current " + itemType + " item. Proceed?")) return;
+	}
+	
+	player->addCurrency(-cost);
+	player->addEquippedItem(getID(), getType(), getStat(), getDurability());
+	cout << endl << "Successfully purchased the item \"" << getName() << "\"." << endl;
 }
 
 //use functions
@@ -45,15 +56,24 @@ vector<int> PlayerWeaponItem::use(Player* const user, vector<Player>& playerList
 	}
 	
 	vector<int> deadPlayers;
-	
 	Player& target = playerList[targetIndex];
 	
-	const int oldHP = target.getHealthStat();
+	//warn the player if they are attacking themselves
+	if(target.getID() == user->getID()) {
+		if(!promptYN("Are you sure that you want to target yourself?")) {
+			cout << "Why not?" << endl;
+			return vector<int>();
+		}
+		else {
+			cout << "You use the weapon on yourself. Ouch." << endl;
+		}
+	}
 	
+	const int oldHP = target.getHealthStat();
 	target.addHealthStat(-min(oldHP, stat));
-	cout << stat << "damage dealt to Player " << targetID << " (" << oldHP << " -> " << target.getHealthStat() << ")" << endl;
+	cout << stat << " damage dealt to Player " << targetID << " (" << oldHP << " -> " << target.getHealthStat() << ")" << endl;
 	if(target.getHealthStat() <= 0) {
-		cout << "Player " << user->getID() << " killed Player " << targetID << "!" << endl;
+		cout << "Player " << targetID << " has been slained by Player " << user->getID() << "!" << endl;
 		deadPlayers.push_back(targetID - 'A');
 	}
 	
@@ -71,20 +91,27 @@ vector<int> CubeWeaponItem::use(Player* const user, vector<Player>& playerList) 
 	}
 	
 	vector<int> deadPlayers;
+	int hitCount = 0;
 	
 	for (Player& target: playerList) {
 		if(target.getHealthStat() <= 0) continue;
-		if(abs(tgtX - target.getPosX()) + abs(tgtY - target.getPosY()) >= range) continue;
+		if(target.getID() == user->getID()) continue;
+		if(max(abs(tgtX - target.getPosX()), abs(tgtY - target.getPosY())) >= radius) continue;
 		
+		hitCount++;
 		const char targetID = target.getID();
 		const int oldHP = target.getHealthStat();
 		
 		target.addHealthStat(-min(oldHP, stat));
-		cout << stat << "damage dealt to Player " << targetID << " (" << oldHP << " -> " << target.getHealthStat() << ")" << endl;
+		cout << stat << " damage dealt to Player " << targetID << " (" << oldHP << " -> " << target.getHealthStat() << ")" << endl;
 		if(target.getHealthStat() <= 0) {
 			cout << "Player " << targetID << " has been slained by Player " << user->getID() << "!" << endl;
 			deadPlayers.push_back(targetID - 'A');
 		}
+	}
+	
+	if(hitCount == 0) {
+		cout << "You hit nobody, not even yourself (since you are immune to it)." << endl;
 	}
 	
 	return deadPlayers;
@@ -99,7 +126,7 @@ vector<int> HealingItem::use(Player* const user, vector<Player>& playerList) con
 
 vector<int> EnergyItem::use(Player* const user, vector<Player>& playerList) const {
 	const int oldEnergy = user->getEnergyStat();
-	user->addEnergyStat(stat);
+	user->setEnergyStat(DEFAULT_ENERGY + stat);
 	cout << "Max energy increased by " << stat << " (" << oldEnergy << " -> " << user->getEnergyStat() << endl;
 	return vector<int>();
 }
