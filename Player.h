@@ -25,27 +25,31 @@ private:
 
 	int healthStat;
 	int attackStat;
-	int movementStat;
+	int energyStat;
 	int currency;
 	int remainingMoves;
-	map<int,int> equippedItems; //Item ID -> count
+	pair<int,int> equippedWeaponItem; //Item ID, current durability
+	map<int,int> equippedHealingItems; //Item ID -> count
+	pair<int,int> equippedEnergyItem; //Item ID, currnet durability
 	
 public:
-	Player(char ID,int healthStat = 100, int attackStat = 10, int movementStat = 10, int currency = 0);
+	Player(char ID, int healthStat = 100, int attackStat = 10, int energyStat = 10, int currency = 100);
 	
 	int getHealthStat() const; //returns remaining health
 	int getAttackStat() const; //returns damage that player can inflict
-	int getMovementStat() const; //returns distance that player can move in 1 turn
+	int getEnergyStat() const; //returns distance that player can move in 1 turn
 	int getCurrency() const; //returns value of player's money
 	int getRemainingMoves() const; //returns remaining moves in the turn
-	const map<int,int>& getEquippedItems() const;
+	const pair<int,int>& getEquippedWeaponItem() const;
+	const map<int,int>& getEquippedHealingItems() const;
+	const pair<int,int>& getEquippedEnergyItem() const;
 	
 	//mutator functions
 	void addHealthStat(const int _health); 
 	void addAttackStat(const int _attack);
-	void addMovementStat(const int _movement);
+	void addEnergyStat(const int _energy);
 	void addCurrency(const int _currency);
-	void addEquippedItem(const int itemID, const int count);
+	void addEquippedItem(const int itemID, const string itemType, const int count);
 	
 	//begin/end turn functions
 	void beginTurn();

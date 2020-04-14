@@ -6,23 +6,6 @@ bool outOfBounds(int X, int Y) {
 	return (X <= 0 || X >= MAPHEIGHT-1 || Y <= 0 || Y >=MAPWIDTH-1);
 }
 
-//accessor functions
-string Item::getName() const {
-	return name;
-}
-int Item::getCost() const {
-	return cost;
-}
-int Item::getStat() const {
-	return stat;
-}
-int WeaponItem::getRange() const {
-	return range;
-}
-int CubeWeaponItem::getRadius() const {
-	return radius;
-}
-
 //buy function
 void Item::buyItem(Player& player) const {
 	if(player.getCurrency() < cost){
@@ -31,7 +14,7 @@ void Item::buyItem(Player& player) const {
 	}
 	
 	player.addCurrency(-cost);
-	player.addEquippedItem(getID(), 1);
+	player.addEquippedItem(getID(), getType(), 1);
 	cout << "Successfully bought a(n) " << name << endl;
 }
 
@@ -114,9 +97,9 @@ vector<int> HealingItem::use(Player* const user, vector<Player>& playerList) con
 	return vector<int>();
 }
 
-vector<int> MovementItem::use(Player* const user, vector<Player>& playerList) const {
-	const int oldEnergy = user->getMovementStat();
-	user->addMovementStat(stat);
-	cout << "Max energy increased by " << stat << " (" << oldEnergy << " -> " << user->getMovementStat() << endl;
+vector<int> EnergyItem::use(Player* const user, vector<Player>& playerList) const {
+	const int oldEnergy = user->getEnergyStat();
+	user->addEnergyStat(stat);
+	cout << "Max energy increased by " << stat << " (" << oldEnergy << " -> " << user->getEnergyStat() << endl;
 	return vector<int>();
 }

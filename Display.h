@@ -31,17 +31,11 @@ public:
 	void printPlayerStat(Player* player, bool active = true) const;
 	void removeDeadPlayers(const vector<int>& deadPlayers); //removes dead players from map
 	void playerMenu(); //switch menu to prompt specific player for action during their turn
-	inline void bumpConsole() { //prints newlines to push the old map out of view
-		for (int i = 0; i < MAPHEIGHT; i++) {
-			cout << endl;
-		}
-	}
 	
 	inline void incrementCurrentTurn(){ //increments to next turn or loops back to first player's turn
 		playerList[currentTurn].endTurn();
 		currentTurn++; currentTurn %= playerList.size();
 		playerList[currentTurn].beginTurn();
-		printMap();
 	}
 	
 	bool promptYN(string) const; //prompts the user for yes/no answer and returns boolean value
