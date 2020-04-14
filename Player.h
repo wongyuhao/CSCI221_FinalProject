@@ -10,6 +10,7 @@
 
 #include "Entity.h"
 #include "Config.h"
+#include "Prompt.h"
 
 using namespace std;
 
@@ -17,12 +18,14 @@ namespace{
 	mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 }
 
+constexpr int DEFAULT_ATTACK_DAMAGE = 10; //damage of the default attack
+constexpr int DEFAULT_ATTACK_RANGE = 1; //range of the default attack
+constexpr int DEFAULT_ATTACK_ENERGY_COST = 1; //energy cost of the default attack
+constexpr int DEFAULT_ENERGY = 1; //energy cost of the default attack
+
 class Player: public Entity
 {
-
 private:
-	
-
 	int healthStat;
 	int attackStat;
 	int energyStat;
@@ -47,17 +50,18 @@ public:
 	//mutator functions
 	void addHealthStat(const int _health); 
 	void addAttackStat(const int _attack);
-	void addEnergyStat(const int _energy);
+	void setEnergyStat(const int _energy);
 	void addCurrency(const int _currency);
-	void addEquippedItem(const int itemID, const string itemType, const int count);
+	void addRemainingMoves(const int _moves);
+	void addEquippedItem(const int itemID, const string itemType, const int itemStat, const int addCount);
 	
 	//begin/end turn functions
 	void beginTurn();
 	void endTurn();
 	
 	//actions
-	void move(const int targetY, const int targetX, Entity* gameMap[MAPHEIGHT][MAPWIDTH]);
-	void attack(Player& target);
+	void move(const int targetY, const int targetX, char gameMap[MAPHEIGHT][MAPWIDTH]);
+	void defaultAttack(vector<Player>& playerList);
 };
 
 #endif
