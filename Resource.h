@@ -11,6 +11,6 @@ extern int currentTurn;
 extern int roundCounter;
 
 extern vector<Building> buildingList;
-extern vector<Item> itemList;
+extern vector<Item*> itemList;
 
 #endif

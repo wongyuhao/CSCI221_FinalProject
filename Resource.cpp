@@ -9,4 +9,4 @@ vector<Building> buildingList = {
 	
 };
 
-vector<Item> itemList;
+vector<Item*> itemList;
