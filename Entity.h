@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "Config.h"
+
 class Entity
 {
 private:
@@ -18,7 +20,7 @@ public:
 	}
 
 	Entity(): //default constructor used for testing
-	ID(' '),
+	ID(BLANK),
 	posX(-1),
 	posY(-1)
 	{
