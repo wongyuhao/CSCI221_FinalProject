@@ -1,5 +1,4 @@
 #include <iomanip>
-#include <typeinfo>
 
 #include "Display.h"
 #include "Resource.h"
@@ -17,7 +16,7 @@ void Display::printMap() const {
 	cout << endl;
 	for (int row = 0; row < MAPHEIGHT; row++) {
 		for (int col = 0; col < MAPWIDTH; col++) {
-			cout<< gameMap[row][col]->getID();
+			cout<< gameMap[row][col];
 		}
 		cout << " " << row;
 		cout << endl;
@@ -27,7 +26,7 @@ void Display::printMap() const {
 void Display::initMap() {
 	for (int row = 0; row < MAPHEIGHT; row++) {
 		for (int col = 0; col < MAPWIDTH; col++) {
-			gameMap[row][col] = new Entity(' ', row, col);
+			gameMap[row][col] = '.';
 		}
 	}
 
@@ -36,14 +35,14 @@ void Display::initMap() {
 		if (row == 0 || row == MAPHEIGHT-1) { //print borders
 
 			for (int col = 0; col < MAPWIDTH; col++) {
-				gameMap[row][col] = new Entity('#',row,col);//print borders
+				gameMap[row][col] = '#'; //print borders
 			}
 
 		}
 		else {  
 			for (int col = 0; col < MAPWIDTH; col++) {
 				if (col == 0 || col == MAPWIDTH - 1) {
-					gameMap[row][col] = new Entity('#', row, col);//print borders
+					gameMap[row][col] = '#'; //print borders
 				}
 			}
 		}
@@ -51,45 +50,88 @@ void Display::initMap() {
 	
 	//populate buildings
 	for (int i = 0; i < buildingList.size(); i++) {
-		gameMap[buildingList[i].getPosX()][buildingList[i].getPosY()] = &buildingList[i];
+		gameMap[buildingList[i].getPosX()][buildingList[i].getPosY()] = buildingList[i].getID();
 	}
 
 	//populate players
 	for (int i = 0; i < playerList.size(); i++) {
-		if (gameMap[playerList[i].getPosX()][playerList[i].getPosY()]->getID() == ' ') {
-			gameMap[playerList[i].getPosX()][playerList[i].getPosY()] = &playerList[i];
-		}
-		else {
+		while (gameMap[playerList[i].getPosX()][playerList[i].getPosY()] != BLANK) {
 			playerList[i] = Player(playerList[i].getID());
-			gameMap[playerList[i].getPosX()][playerList[i].getPosY()] = &playerList[i];
-
 		}
+		gameMap[playerList[i].getPosX()][playerList[i].getPosY()] = playerList[i].getID();
 	}
 }
 
-void Display::printPlayerStat(Player* player, bool active) const {
-	cout << string(30, '=') << endl;		
+void Display::printPlayerStat(Player* const player, bool active) const {
+	cout << string(30, '=') << endl;
+	
+	//called in "PLAYERS" menu
 	if(!active) {
-		cout << "PLAYER " << player->getID() << "'s turn" << endl << endl;
+		cout << "PLAYER " << player->getID() << endl << endl;
 		cout << "HP: " << player->getHealthStat() << endl;
+		if(player->getHealthStat() <= 0) {
+			cout << "[DEAD]" << endl;
+		}
+		else {
+			cout << "Current coordinate: (" << player->getPosY() << ", " << player->getPosX() << ")" << endl;
+		}
+		cout << string(30, '=') << endl;
+	}
+	
+	//called in main menu
+	else {
+		cout << "Player " << player->getID() << "'s turn" << endl << endl;
+		cout << "HP: " << player->getHealthStat();
+		cout << " | ATK: " << player->getAttackStat();
+		if(player->getEquippedWeaponItem().first >= 0 && player->getEquippedWeaponItem().first < itemList.size()) {
+			const Item* const item = itemList[player->getEquippedWeaponItem().first];
+			if(item->getType() == "Weapon (Splash)") cout << " (radius: " << item->getRadius() << ")";
+		}
+		cout << " | MAX ENERGY: " << player->getEnergyStat();
+		cout << endl;
+		
+		cout << "Currency: " << player->getCurrency() << endl;
+		cout << "Energy left: " << player->getRemainingMoves() << endl;
 		cout << "Current coordinate: (" << player->getPosY() << ", " << player->getPosX() << ")" << endl;
 		cout << string(30, '=') << endl;
 	}
+}
+
+void Display::printItem(const Item* item, const vector<int>& colSize, const int type, const int count) const {
+	//print in inventory
+	if (type == 0) {
+		cout<< right << setw(colSize[0]) << item->getID() << " "
+			<< left << setw(colSize[1]) << item->getName()
+			<< setw(colSize[2]) << item->getType()
+			<< setw(colSize[3]) << item->getStat()
+			<< setw(colSize[4]) << (item->getRange()==0 ? "-" : to_string(item->getRange()))
+			<< setw(colSize[5]) << (item->getRadius()==0 ? "-" : to_string(item->getRadius()))
+			<< setw(colSize[6]) << item->getEnergyCost()
+			<< setw(colSize[7]) << count
+			<< endl;
+	}
+	
+	//print in shop
 	else {
-		cout << "Player " << player->getID() << "'s turn" << endl << endl;
-		cout << "HP: " << player->getHealthStat() << " | ATK: " << player->getAttackStat() << " | MAX MOVES: " << player->getEnergyStat() << endl;
-		cout << "Currency: " << player->getCurrency() << endl;
-		cout << "Remaining moves: " << player->getRemainingMoves() << endl;
-		cout << "Current coordinate: (" << player->getPosY() << ", " << player->getPosX() << ")" << endl;
-		cout << string(30, '=') << endl;
+		cout<< right << setw(colSize[0]) << item->getID() << " "
+			<< left << setw(colSize[1]) << item->getName()
+			<< left << setw(colSize[2]) << item->getType()
+			<< setw(colSize[3]) << item->getStat()
+			<< setw(colSize[4]) << (item->getRange()==0 ? "-" : to_string(item->getRange()))
+			<< setw(colSize[5]) << (item->getRadius()==0 ? "-" : to_string(item->getRadius()))
+			<< setw(colSize[6]) << item->getCost()
+			<< setw(colSize[7]) << item->getEnergyCost()
+			<< setw(colSize[8]) << item->getDurability()
+			<< endl;
 	}
 }
 
 void Display::removeDeadPlayers(const vector<int>& deadPlayers) {
 	for(int playerIndex: deadPlayers) {
 		const Player& player = playerList[playerIndex];
-		gameMap[player.getPosX()][player.getPosY()]->setID(' ');
+		gameMap[player.getPosX()][player.getPosY()] = BLANK;
 	}
+	aliveCount -= deadPlayers.size();
 }
 
 void Display::playerMenu() {
@@ -101,7 +143,7 @@ void Display::playerMenu() {
 	
 	cout <<"[0] MOVE" << endl;
 	cout <<"[1] ATTACK"<< endl;
-	cout <<"[2] ITEMS" << endl;
+	cout <<"[2] INVENTORY" << endl;
 	cout <<"[3] SHOP" << endl;
 	cout <<"[4] PLAYERS" << endl;
 	cout <<"[5] END TURN"<< endl << endl;
@@ -136,73 +178,65 @@ void Display::playerMenu() {
 			case 1 : {				
 				//has weapon; use weapon
 				if(currentPlayer->getEquippedWeaponItem().first != -1) {
-					const Item& item = itemList[currentPlayer->getEquippedWeaponItem().first];
-					vector<int> deadPlayers = item.use(currentPlayer, playerList);
+					const Item *item = itemList[currentPlayer->getEquippedWeaponItem().first];
+					vector<int> deadPlayers = item->use(currentPlayer, playerList);
 					removeDeadPlayers(deadPlayers);
-					currentPlayer->addEquippedItem(item.getID(), item.getType(), -1);
+					currentPlayer->addEquippedItem(item->getID(), item->getType(), item->getStat(), -1);
+					currentPlayer->addRemainingMoves(-item->getEnergyCost());
 					system("pause"); return;
 				}
 				
 				//no weapon; default attack
-				cout << "Select target: ";
-				char targetID;
-				cin >> targetID;
-				int targetIndex = toupper(targetID) - 'A';
-				
-				while (true) {
-					//check range
-					if(targetIndex < 0 || targetIndex >= playerList.size()) {
-						cout << "Invalid player. Try again." << endl;
-						cin >> targetID;
-						continue;
-					}
-					
-					//check that target is alive
-					if(playerList[targetIndex].getHealthStat() <= 0) {
-						cout << "Target player is dead. Try again." << endl;
-						cin >> targetID;
-						continue;
-					}
-					
-					//All checks passed
-					break;
-				}
-				
-				currentPlayer->attack(playerList[targetID]);
+				currentPlayer->defaultAttack(playerList);
 				
 				system("pause"); return;
 			}
 			
-			//show/use items
+			//inventory: show/use items
 			case 2 : {
+				const vector<int> colSize = {3, 30, 17, 6, 7, 8, 13, 18};
+				const vector<string> labels = {"ID ", "Name", "Type", "Stat", "Range", "Radius", "Energy cost", "Count/Durability"};
+				int menuWidth = 0;
+				for(int sz: colSize) menuWidth += sz;
+				
 				cout << "PLAYER " << currentPlayer->getID() << "'s INVENTORY" << endl << endl;
 				
-				cout << setw(3) << "ID" << setw(10) << "Name" << setw(5) << "Count/Durability" << endl;
-				cout << string(40,'-') << endl;
+				for(int i = 0; i < labels.size(); i++) {
+					if(i == 0) {
+						cout << right << setw(colSize[i]-1) << labels[i];
+					}
+					else {
+						cout << left << setw(colSize[i]) << labels[i];
+					}
+				}
+				cout << endl;
+				
+				cout << string(menuWidth,'-') << endl;
 				
 				//print weapon items
 				const pair<int,int>& equippedWeaponItem = currentPlayer->getEquippedWeaponItem();
 				if(equippedWeaponItem.first != -1) {
-					const Item& item = itemList[equippedWeaponItem.first];
-					cout << setw(3) << item.getID() << setw(10) << item.getName() << setw(5) << equippedWeaponItem.second << endl;
+					const Item *item = itemList[equippedWeaponItem.first];
+					printItem(item, colSize, 0, equippedWeaponItem.second);
 				}
 				
 				//print healing items
 				const map<int,int>& equippedHealingItems = currentPlayer->getEquippedHealingItems();
 				for (pair<int,int> itemPair: equippedHealingItems) {
-					const Item& item = itemList[itemPair.first];
-					cout << setw(3) << item.getID() << setw(10) << item.getName() << setw(5) << itemPair.second << endl;
+					const Item *item = itemList[itemPair.first];
+					printItem(item, colSize, 0, itemPair.second);
 				}
 				
 				//print energy items
 				const pair<int,int>& equippedEnergyItem = currentPlayer->getEquippedEnergyItem();
 				if(equippedEnergyItem.first != -1) {
-					const Item& item = itemList[equippedEnergyItem.first];
-					cout << setw(3) << item.getID() << setw(10) << item.getName() << setw(5) << equippedEnergyItem.second << endl;
+					const Item *item = itemList[equippedEnergyItem.first];
+					printItem(item, colSize, 0, equippedEnergyItem.second);
 				}
 				
 				//prompt user to choose item
-				cout << "[-1] BACK" << endl
+				cout << endl
+					 << "[-1] BACK" << endl
 					 << "[ITEM ID] USE ITEM" << endl << endl
 					 
 					 << "CHOOSE AN OPTION: ";
@@ -217,10 +251,10 @@ void Display::playerMenu() {
 					cin >> option;
 				}
 				
-				const Item& item = itemList[option];
+				const Item *item = itemList[option];
 				
 				//user can only use healing items as other items are applied automatically when bought
-				if(item.getType() != "healing") {
+				if(item->getType() != "healing") {
 					cout << "This item is not usable." << endl;
 					system("pause"); return;
 				}
@@ -231,26 +265,42 @@ void Display::playerMenu() {
 					system("pause"); return;
 				}
 				
-				item.use(currentPlayer, playerList);
-				currentPlayer->addEquippedItem(item.getID(), item.getType(), -1);
+				item->use(currentPlayer, playerList);
+				currentPlayer->addEquippedItem(item->getID(), item->getType(), item->getStat(), -1);
+				currentPlayer->addRemainingMoves(-item->getEnergyCost());
 				
 				return;
 			}
 			
 			//shop
 			case 3 : {
+				const vector<int> colSize = {3, 30, 17, 6, 7, 8, 6, 13, 13};
+				const vector<string> labels = {"ID ", "Name", "Type", "Stat", "Range", "Radius", "Cost", "Energy cost", "Durability"};
+				int menuWidth = 0;
+				for(int sz: colSize) menuWidth += sz;
+				
 				cout << "SHOP" << endl << endl;
 				
-				cout << setw(3) << "ID" << setw(10) << "Name" << setw(5) << "Cost" << setw(5) << "Energy Cost" << endl;
-				cout << string(40,'-') << endl;
-				for (const Item& item: itemList) {
-					cout << setw(3) << item.getID() << setw(10) << item.getName() << setw(5) << item.getCost() << setw(5) << item.getEnergyCost() << endl;
+				for(int i = 0; i < labels.size(); i++) {
+					if(i == 0) {
+						cout << right << setw(colSize[i]-1) << labels[i];
+					}
+					else {
+						cout << left << setw(colSize[i]) << labels[i];
+					}
+				}
+				cout << endl;
+				
+				cout << string(menuWidth,'-') << endl;
+				for (const Item* item: itemList) {
+					printItem(item, colSize, 1);
 				}
 				
 				//prompt user to buy item/return			
-				cout << "[-1] BACK" << endl
+				cout << endl
+					 << "[-1] BACK" << endl
 					 << "[ITEM ID] BUY ITEM" << endl << endl
-				
+					 
 					 << "CHOOSE AN OPTION: ";
 				
 				int option;
@@ -263,30 +313,10 @@ void Display::playerMenu() {
 					cin >> option;
 				}
 				
-				const Item& item = itemList[option];
-				
-				//check that user has enough currency
-				if(currentPlayer->getCurrency() < item.getCost()) {
-					cout << "Insufficient currency." << endl;
-					system("pause"); return;
-				}
-				
-				//if the selected item will overwrite the user's weapon/energy item, warn the user
-				if((item.getType()[0] == 'W' && currentPlayer->getEquippedWeaponItem().first != -1) ||
-				   (item.getType()[0] == 'E' && currentPlayer->getEquippedEnergyItem().first != -1)
-				)
-				{
-					string itemType = item.getType();
-					tolower(itemType[0]);
-					if(!promptYN("This will replace your current " + itemType + " item. Proceed?")) system("pause"); return;
-				}
+				const Item *item = itemList[option];
 				
 				//add item to user, deduct currency
-				currentPlayer->addEquippedItem(item.getID(), item.getType(), 1);
-				currentPlayer->addCurrency(-item.getCost());
-				
-				cout << "Item \"" << item.getName() << "\" purchased successfully." << endl;
-				
+				item->buyItem(currentPlayer);
 				system("pause"); return;
 			}
 			
@@ -313,19 +343,4 @@ void Display::playerMenu() {
 			}
 		}
 	}
-}
-
-//prompts user the string prompt, receives Y/N
-bool Display::promptYN(string prompt) const {
-	cout << prompt << " (Y/N)" << endl;
-	
-	string input;
-	cin >> input;
-	
-	while(input.length() != 1 || (tolower(input[0]) != 'y' && tolower(input[0]) != 'n')){
-		cout << "Invalid response. Please try again. (Y/N)" << endl;
-		cin >> input;
-	}
-	
-	return (tolower(input[0]) == 'y');
 }
