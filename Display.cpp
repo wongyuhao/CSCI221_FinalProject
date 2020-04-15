@@ -323,8 +323,8 @@ void Display::playerMenu() {
 			//check players' status: only shows HP and current coordinates
 			case 4 : {
 				cout << "PLAYER STATS" << endl << endl;
-				for (player: playerList) {
-					printPlayerStat(&player, 0);
+				for (int i = 0; i < playerList.size(); i++) {
+					printPlayerStat(&playerList[i], 0);
 				}
 				cout << endl;
 				system("pause"); return;
