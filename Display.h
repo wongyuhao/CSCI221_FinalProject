@@ -29,7 +29,8 @@ public:
 		initMap();
 	}
 	void printMap() const; //iterates through the gameMap array to print every element in a grid
-	void printPlayerStat(Player* const player, bool active = true) const; //print player stats
+	void printPlayerStat(Player* const player) const; //print player stats
+	void printLeaderboard() const;
 	void printItem(const Item* item, const vector<int>& colSize, const int type, const int count = 0) const; //print item stats in inventory (type=0) or shop (type=1)
 	void removeDeadPlayers(const vector<int>& deadPlayers); //removes dead players from map
 	void playerMenu(); //switch menu to prompt specific player for action during their turn

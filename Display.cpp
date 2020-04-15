@@ -1,4 +1,5 @@
 #include <iomanip>
+#include <algorithm>
 
 #include "Display.h"
 #include "Resource.h"
@@ -62,39 +63,70 @@ void Display::initMap() {
 	}
 }
 
-void Display::printPlayerStat(Player* const player, bool active) const {
+void Display::printPlayerStat(Player* const player) const {
 	cout << string(30, '=') << endl;
 	
-	//called in "PLAYERS" menu
-	if(!active) {
-		cout << "PLAYER " << player->getID() << endl << endl;
-		cout << "HP: " << player->getHealthStat() << endl;
-		if(player->getHealthStat() <= 0) {
-			cout << "[DEAD]" << endl;
-		}
-		else {
-			cout << "Current coordinate: (" << player->getPosY() << ", " << player->getPosX() << ")" << endl;
-		}
-		cout << string(30, '=') << endl;
+	cout << "Player " << player->getID() << "'s turn" << endl << endl;
+	cout << "HP: " << player->getHealthStat();
+	cout << " | ATK: " << player->getAttackStat();
+	if(player->getEquippedWeaponItem().first >= 0 && player->getEquippedWeaponItem().first < itemList.size()) {
+		const Item* const item = itemList[player->getEquippedWeaponItem().first];
+		if(item->getType() == "Weapon (Splash)") cout << " (radius: " << item->getRadius() << ")";
+	}
+	cout << " | MAX ENERGY: " << player->getEnergyStat();
+	cout << endl;
+	
+	cout << "Currency: " << player->getCurrency() << endl;
+	cout << "Energy left: " << player->getRemainingMoves() << endl;
+	cout << "Current coordinate: (" << player->getPosY() << ", " << player->getPosX() << ")" << endl;
+	cout << string(30, '=') << endl;
+}
+
+bool cmpKillCount(int x, int y) {
+	const Player* const p1 = &playerList[x];
+	const Player* const p2 = &playerList[y];
+	
+	return pair<int,int>(p1->getKillCount(), p1->getHealthStat()) > pair<int,int>(p2->getKillCount(), p2->getHealthStat());
+}
+
+void Display::printLeaderboard() const {
+	vector<int> playerOrder;
+	for(int i = 0; i < playerList.size(); i++) {
+		playerOrder.push_back(i);
 	}
 	
-	//called in main menu
-	else {
-		cout << "Player " << player->getID() << "'s turn" << endl << endl;
-		cout << "HP: " << player->getHealthStat();
-		cout << " | ATK: " << player->getAttackStat();
-		if(player->getEquippedWeaponItem().first >= 0 && player->getEquippedWeaponItem().first < itemList.size()) {
-			const Item* const item = itemList[player->getEquippedWeaponItem().first];
-			if(item->getType() == "Weapon (Splash)") cout << " (radius: " << item->getRadius() << ")";
-		}
-		cout << " | MAX ENERGY: " << player->getEnergyStat();
-		cout << endl;
-		
-		cout << "Currency: " << player->getCurrency() << endl;
-		cout << "Energy left: " << player->getRemainingMoves() << endl;
-		cout << "Current coordinate: (" << player->getPosY() << ", " << player->getPosX() << ")" << endl;
-		cout << string(30, '=') << endl;
+	sort(playerOrder.begin(), playerOrder.end(), cmpKillCount);
+	
+	const vector<string> labels = {"No", "Player    ", "Kills", "HP ", "Coordinates"};
+	vector<int> colSize;
+	int tableWidth = 0;
+	for(string label: labels) {
+		colSize.push_back(label.length() + 2);
+		tableWidth += colSize.back();
 	}
+	
+	//printing table header
+	cout << string(tableWidth, '=') << endl;
+	cout << "LEADERBOARD" << endl << endl;
+	for(int i = 0; i < labels.size(); i++) {
+		cout << left << setw(colSize[i]) << labels[i];
+	}
+	cout << endl << string(tableWidth, '-') << endl;
+	
+	for(int i = 0; i < playerOrder.size(); i++) {
+		const Player& player = playerList[playerOrder[i]];
+		ostringstream coordinates;
+		coordinates << "(" << player.getPosY() << ", " << player.getPosX() << ")";
+		cout<< left
+			<< setw(colSize[0]) << i+1
+			<< setw(colSize[1]) << string("Player ")+player.getID()
+			<< setw(colSize[2]) << player.getKillCount()
+			<< setw(colSize[3]) << player.getHealthStat()
+			<< setw(colSize[4]) << coordinates.str()
+			<< endl;
+	}
+	
+	cout << string(tableWidth, '=') << endl << endl;
 }
 
 void Display::printItem(const Item* item, const vector<int>& colSize, const int type, const int count) const {
@@ -145,7 +177,7 @@ void Display::playerMenu() {
 	cout <<"[1] ATTACK"<< endl;
 	cout <<"[2] INVENTORY" << endl;
 	cout <<"[3] SHOP" << endl;
-	cout <<"[4] PLAYERS" << endl;
+	cout <<"[4] LEADERBOARD" << endl;
 	cout <<"[5] END TURN"<< endl << endl;
 	
 	cout << "CHOOSE AN ACTION: ";
@@ -181,13 +213,16 @@ void Display::playerMenu() {
 					const Item *item = itemList[currentPlayer->getEquippedWeaponItem().first];
 					vector<int> deadPlayers = item->use(currentPlayer, playerList);
 					removeDeadPlayers(deadPlayers);
+					currentPlayer->addKillCount(deadPlayers.size());
 					currentPlayer->addEquippedItem(item->getID(), item->getType(), item->getStat(), -1);
 					currentPlayer->addRemainingMoves(-item->getEnergyCost());
 					system("pause"); return;
 				}
 				
 				//no weapon; default attack
-				currentPlayer->defaultAttack(playerList);
+				vector<int> deadPlayers = currentPlayer->defaultAttack(playerList);
+				removeDeadPlayers(deadPlayers);
+				currentPlayer->addKillCount(deadPlayers.size());
 				
 				system("pause"); return;
 			}
@@ -320,15 +355,10 @@ void Display::playerMenu() {
 				system("pause"); return;
 			}
 			
-			//check players' status: only shows HP and current coordinates
+			//leaderboard
 			case 4 : {
-				cout << "PLAYER STATS" << endl << endl;
-				for (int i = 0; i < playerList.size(); i++) {
-					printPlayerStat(&playerList[i], 0);
-				}
-				cout << endl;
+				printLeaderboard();
 				system("pause"); return;
-				
 			}
 			
 			//end turn

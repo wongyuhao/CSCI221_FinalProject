@@ -1,5 +1,6 @@
 #include <queue>
 #include <cassert>
+#include <algorithm>
 
 #include "Player.h"
 
@@ -27,6 +28,9 @@ int Player::getCurrency() const {
 int Player::getRemainingMoves() const {
 	return remainingMoves;
 }
+int Player::getKillCount() const {
+	return killCount;
+}
 const pair<int,int>& Player::getEquippedWeaponItem() const {
 	return equippedWeaponItem;
 }
@@ -52,6 +56,9 @@ void Player::addCurrency(const int _currency) {
 }
 void Player::addRemainingMoves(const int _moves) {
 	remainingMoves += _moves;
+}
+void Player::addKillCount(const int _killCount) {
+	killCount += _killCount;
 }
 void Player::addEquippedItem(const int itemID, const string itemType, const int itemStat, const int addCount) {
 	switch (itemType[0]) {
@@ -132,6 +139,7 @@ Player::Player(
 	energyStat(energyStat),
 	currency(currency),
 	remainingMoves(0),
+	killCount(0),
 	Entity(
 		ID,
 		uniform_int_distribution<int>(1, MAPHEIGHT - 2)(rng),
@@ -187,7 +195,7 @@ void Player::move(const int targetX, const int targetY, char gameMap[MAPHEIGHT][
 }
 
 //Default attack function
-void Player::defaultAttack(vector<Player>& playerList) {
+vector<int> Player::defaultAttack(vector<Player>& playerList) {
 	cout << "Select target (X to go back): ";
 	char targetID;
 	cin >> targetID;
@@ -197,7 +205,7 @@ void Player::defaultAttack(vector<Player>& playerList) {
 		//go back
 		if(targetID == 'X') {
 			cout << "Crisis averted." << endl;
-			system("pause"); return;
+			system("pause"); return vector<int>();
 		}
 		
 		//check range
@@ -220,7 +228,7 @@ void Player::defaultAttack(vector<Player>& playerList) {
 		if(targetID == getID()) {
 			if(!promptYN("Are you sure that you want to target yourself?")) {
 				cout << "Crisis averted." << endl;
-				return;
+				return vector<int>();
 			}
 			else {
 				cout << "You punch yourself in the face." << endl;
@@ -235,14 +243,21 @@ void Player::defaultAttack(vector<Player>& playerList) {
 	int dist = abs(getPosX() - target.getPosX()) + abs(getPosY() - target.getPosY());
 	if(dist > DEFAULT_ATTACK_RANGE) {
 		cout << "The target is not in range." << endl;
-		return;
+		return vector<int>();
 	}
 	
 	int oldHP = target.getHealthStat();
-	target.addHealthStat(-attackStat);
+	target.addHealthStat(-min(oldHP, attackStat));
 	remainingMoves -= DEFAULT_ATTACK_ENERGY_COST;
 	
+	vector<int> deadPlayers;
 	cout << attackStat << " damage dealt to Player " << target.getID() << " (" << oldHP << "->" << target.getHealthStat() << ")" << endl;
+	if(target.getHealthStat() <= 0) {
+		cout << "Player " << target.getID() << " has been slained by Player " << getID() << "!" << endl;
+		deadPlayers.push_back(target.getID() - 'A');
+	}
+	
+	return deadPlayers;
 }
 
 //BFS definition
