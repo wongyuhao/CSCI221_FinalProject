@@ -334,6 +334,9 @@ void Display::playerMenu() {
 			//end turn
 			case 5 : {
 				incrementCurrentTurn();
+				system("cls");
+				cout << "Pass the device to Player " << char('A'+currentTurn) << "." << endl;
+				system("pause");
 				return;
 			}
 			
