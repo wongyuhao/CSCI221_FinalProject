@@ -1,0 +1,15 @@
+Player Weapon
+weaponP
+50 2 20 4 30
+
+Splash Weapon
+weaponS
+50 2 80 3 30 4
+
+Healing Potion
+healing
+80 20
+
+Energy Booster
+energy
+20 15 10
