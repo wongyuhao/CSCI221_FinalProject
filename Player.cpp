@@ -179,7 +179,7 @@ void Player::move(const int targetX, const int targetY, char gameMap[MAPHEIGHT][
 	}
 	
 	if(remainingMoves < dist[targetX][targetY]){
-		cout << "You do not have enough remaining moves." << endl << endl;
+		cout << "Insufficient energy." << endl << endl;
 		return;
 	}
 	
@@ -197,8 +197,7 @@ void Player::move(const int targetX, const int targetY, char gameMap[MAPHEIGHT][
 //Default attack function
 vector<int> Player::defaultAttack(vector<Player>& playerList) {
 	cout << "Select target (X to go back): ";
-	char targetID;
-	cin >> targetID;
+	char targetID = UI::readChar();
 	int targetIndex = toupper(targetID) - 'A';
 	
 	while (true) {
@@ -211,7 +210,7 @@ vector<int> Player::defaultAttack(vector<Player>& playerList) {
 		//check range
 		if(targetIndex < 0 || targetIndex >= playerList.size()) {
 			cout << "Invalid player. Try again." << endl;
-			cin >> targetID;
+			targetID = UI::readChar();
 			targetIndex = toupper(targetID) - 'A';
 			continue;
 		}
@@ -219,14 +218,14 @@ vector<int> Player::defaultAttack(vector<Player>& playerList) {
 		//check that target is alive
 		if(playerList[targetIndex].getHealthStat() <= 0) {
 			cout << "Target player is dead. Try again." << endl;
-			cin >> targetID;
+			targetID = UI::readChar();
 			targetIndex = toupper(targetID) - 'A';
 			continue;
 		}
 		
 		//warn the player if they are attacking themselves
 		if(targetID == getID()) {
-			if(!promptYN("Are you sure that you want to target yourself?")) {
+			if(!UI::promptYN("Are you sure that you want to target yourself?")) {
 				cout << "Crisis averted." << endl;
 				return vector<int>();
 			}

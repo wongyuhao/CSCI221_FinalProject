@@ -4,65 +4,31 @@
 #include <random>
 #include <ctime>
 
+#define _WIN32_WINNT 0x0500
+#include <windows.h>
+
 #include "Building.h"
 #include "Player.h"
 #include "Display.h"
+#include "DataFetcher.h"
+#include "UI.h"
 
 using namespace std;
 
+void maximizeWindow()
+{
+    HWND hwnd = GetConsoleWindow();
+    ShowWindow(hwnd, SW_SHOWMAXIMIZED);
+}
+
 int main() {
-	cout << "Maximize the window for the full experience." << endl << endl;
+	maximizeWindow();
 	
 	cout << "Enter number of players: ";
-	int playerCount;
-	cin >> playerCount;
+	int playerCount = UI::readInt(2,10);
 	
-	//initialize Player objects
-	for (int i = 0; i < playerCount && i < 10; i++) {
-		char playerID = i+65;
-		playerList.push_back(Player(playerID));
-	}
-	
-	//DEBUGGING CODE: delete this before final release
-	/*playerList[0].setPosX(15); playerList[0].setPosY(15);
-	playerList[1].setPosX(15); playerList[1].setPosY(16);*/
-	
-	//create file stream to read item file
-	ifstream fin("Items.txt");
-	assert(fin);
-	
-	int currentID = 0;
-	string name, type;
-	int cost, energyCost, stat, durability, range, radius;
-	
-	while(getline(fin, name)) {
-		fin >> type;
-		if(type == "weaponP") {
-			fin >> cost >> energyCost >> stat >> durability >> range;
-			itemList.push_back(new PlayerWeaponItem(currentID, name, cost, energyCost, stat, durability, range));
-		}
-		else if(type == "weaponS") {
-			fin >> cost >> energyCost >> stat >> durability >> range >> radius;
-			itemList.push_back(new CubeWeaponItem(currentID, name, cost, energyCost, stat, durability, range, radius));
-		}
-		else if(type == "healing") {
-			fin >> cost >> stat;
-			itemList.push_back(new HealingItem(currentID, name, cost, stat));
-		}
-		else if(type == "energy") {
-			fin >> cost >> stat >> durability;
-			itemList.push_back(new EnergyItem(currentID, name, cost, stat, durability));
-		}
-		else {
-			cout << "Error when reading Items.txt: Invalid item type." << endl;
-			return 0;
-		}
-		
-		currentID++;
-		fin.ignore(2);
-	}
-	
-	fin.close();
+	DataFetcher::fetchPlayers(playerCount);
+	DataFetcher::fetchItems();
 	
 	Display display;
 	
@@ -71,6 +37,7 @@ int main() {
 	
 	while (aliveCount > 1) {
 		display.playerMenu();
+		system("pause");
 	}
 	
 	while(playerList[currentTurn].getHealthStat() <= 0) {

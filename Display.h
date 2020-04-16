@@ -8,7 +8,7 @@
 #include "Building.h"
 #include "Resource.h"
 #include "Config.h"
-#include "Prompt.h"
+#include "UI.h"
 
 using namespace std;
 extern vector <Player> playerList;

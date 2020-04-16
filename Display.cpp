@@ -183,27 +183,19 @@ void Display::playerMenu() {
 	cout << "CHOOSE AN ACTION: ";
 	
 	while(true) {
-		int option;
-		cin >> option;
+		int option = UI::readInt(0,5);
 		cout << endl;
 		switch (option) {
 			//move
 			case 0 : {
-				cout << "Enter Target Coordinates (Press Enter After Each Coordinate): "<<endl;
-				
-				int tgtX, tgtY;
-				while (true) {
-					cin >> tgtY >> tgtX;					
-					if (tgtX >= MAPHEIGHT - 1 || tgtX <= 0 || tgtY >= MAPWIDTH - 1 || tgtY <= 0){
-						cout << "Invalid Coordinates. Try again.\n";
-						continue;
-					}
-					else { break; }
-				}
+				cout << "Enter target x-coordinate: ";
+				int tgtY = UI::readInt(1, MAPWIDTH-2);
+				cout << "Enter target y-coordinate: ";
+				int tgtX = UI::readInt(1, MAPHEIGHT-2);
 				
 				currentPlayer->move(tgtX, tgtY, gameMap); 
 				
-				system("pause"); return;
+				return;
 			}
 			
 			//attack
@@ -211,20 +203,33 @@ void Display::playerMenu() {
 				//has weapon; use weapon
 				if(currentPlayer->getEquippedWeaponItem().first != -1) {
 					const Item *item = itemList[currentPlayer->getEquippedWeaponItem().first];
+					
+					if(currentPlayer->getRemainingMoves() < item->getEnergyCost()) {
+						cout << "Insufficient energy." << endl << endl;
+						return;
+					}
+					
 					vector<int> deadPlayers = item->use(currentPlayer, playerList);
 					removeDeadPlayers(deadPlayers);
+					
 					currentPlayer->addKillCount(deadPlayers.size());
 					currentPlayer->addEquippedItem(item->getID(), item->getType(), item->getStat(), -1);
 					currentPlayer->addRemainingMoves(-item->getEnergyCost());
-					system("pause"); return;
+					return;
 				}
 				
 				//no weapon; default attack
+				if(currentPlayer->getRemainingMoves() < DEFAULT_ATTACK_ENERGY_COST) {
+					cout << "Insufficient energy." << endl << endl;
+					return;
+				}
+				
 				vector<int> deadPlayers = currentPlayer->defaultAttack(playerList);
 				removeDeadPlayers(deadPlayers);
+				
 				currentPlayer->addKillCount(deadPlayers.size());
 				
-				system("pause"); return;
+				return;
 			}
 			
 			//inventory: show/use items
@@ -276,28 +281,22 @@ void Display::playerMenu() {
 					 
 					 << "CHOOSE AN OPTION: ";
 				
-				int option;
-				cin >> option;
+				int option = UI::readInt(-1, itemList.size()-1);
 				
-				//check that item ID is within range, or return if asked
-				while(option < 0 || option >= itemList.size()) {
-					if(option == -1) return;
-					cout << "Invalid item ID. Try again." << endl;
-					cin >> option;
-				}
+				if(option == -1) return;
 				
 				const Item *item = itemList[option];
 				
 				//user can only use healing items as other items are applied automatically when bought
 				if(item->getType() != "healing") {
 					cout << "This item is not usable." << endl;
-					system("pause"); return;
+					return;
 				}
 				
 				//check that user has the item
 				if(equippedHealingItems.find(option) == equippedHealingItems.end()) {
 					cout << "Item not found in inventory." << endl;
-					system("pause"); return;
+					return;
 				}
 				
 				item->use(currentPlayer, playerList);
@@ -338,27 +337,21 @@ void Display::playerMenu() {
 					 
 					 << "CHOOSE AN OPTION: ";
 				
-				int option;
-				cin >> option;
+				int option = UI::readInt(-1, itemList.size());
 				
-				//check that item ID is within range, or return if asked
-				while(option < 0 || option >= itemList.size()) {
-					if(option == -1) return;
-					cout << "Invalid item ID. Try again." << endl;
-					cin >> option;
-				}
+				if(option == -1) return;
 				
 				const Item *item = itemList[option];
 				
 				//add item to user, deduct currency
 				item->buyItem(currentPlayer);
-				system("pause"); return;
+				return;
 			}
 			
 			//leaderboard
 			case 4 : {
 				printLeaderboard();
-				system("pause"); return;
+				return;
 			}
 			
 			//end turn
@@ -366,7 +359,6 @@ void Display::playerMenu() {
 				incrementCurrentTurn();
 				system("cls");
 				cout << "Pass the device to Player " << char('A'+currentTurn) << "." << endl;
-				system("pause");
 				return;
 			}
 			
