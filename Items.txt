@@ -1,15 +1,48 @@
-Player Weapon
-weaponP
-50 2 20 4 30
 
-Splash Weapon
-weaponS
-50 2 80 3 30 4
+Fist
+WeaponP
+0 0 5 10000 1 
 
-Healing Potion
+Lamppost
+WeaponP
+1000 0 10 10000 1
+
+Skirmish Blade
+WeaponP
+1400 0 12 10000 1
+
+Aghanim Blade
+WeaponP
+1500 0 15 10000 1
+
+Invoker's Call
+WeaponP
+2200 0 20 10000 1
+
+The BLitzkireg
+WeaponS
+2000 10 8 10000 1 3
+
+Soul Brewer
+WeaponS
+3000 10 12 10000 1 3
+
+Void's Bow
+WeaponP
+1000 0 6 10000 5
+
+Frozen Arrow
+WeaponP
+2000 0 10 10000 5
+
+Dawn Husker
+WeaponP
+3000 0 15 10000 5
+
+Health Pot
 healing
-80 20
+100 20
 
 Energy Booster
 energy
-20 15 10
+20 15 5
