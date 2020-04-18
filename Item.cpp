@@ -21,7 +21,7 @@ void Item::buyItem(Player* const player) const {
 	{
 		string itemType = getType();
 		itemType[0] = tolower(itemType[0]);
-		if(!promptYN("This will replace your current " + itemType + " item. Proceed?")) return;
+		if(!UI::promptYN("This will replace your current " + itemType + " item. Proceed?")) return;
 	}
 	
 	player->addCurrency(-cost);
@@ -32,22 +32,23 @@ void Item::buyItem(Player* const player) const {
 //use functions
 vector<int> PlayerWeaponItem::use(Player* const user, vector<Player>& playerList) const {
 	cout << "Enter target player: ";
-	char targetID;
-	cin >> targetID;
+	char targetID = UI::readChar();
 	int targetIndex = toupper(targetID) - 'A';
 	
 	while (true) {
 		//check range
 		if(targetIndex < 0 || targetIndex >= playerList.size()) {
 			cout << "Invalid player. Try again." << endl;
-			cin >> targetIndex;
+			targetID = UI::readChar();
+			targetIndex = toupper(targetID) - 'A';
 			continue;
 		}
 		
 		//check that target is alive
 		if(playerList[targetIndex].getHealthStat() <= 0) {
 			cout << "Target player is dead. Try again." << endl;
-			cin >> targetIndex;
+			targetID = UI::readChar();
+			targetIndex = toupper(targetID) - 'A';
 			continue;
 		}
 		
@@ -60,7 +61,7 @@ vector<int> PlayerWeaponItem::use(Player* const user, vector<Player>& playerList
 	
 	//warn the player if they are attacking themselves
 	if(target.getID() == user->getID()) {
-		if(!promptYN("Are you sure that you want to target yourself?")) {
+		if(!UI::promptYN("Are you sure that you want to target yourself?")) {
 			cout << "Why not?" << endl;
 			return vector<int>();
 		}
@@ -81,14 +82,10 @@ vector<int> PlayerWeaponItem::use(Player* const user, vector<Player>& playerList
 }
 
 vector<int> CubeWeaponItem::use(Player* const user, vector<Player>& playerList) const {
-	cout << "Enter target location: ";
-	int tgtX, tgtY;
-	cin >> tgtY >> tgtX;
-	
-	while(outOfBounds(tgtX, tgtY)) {
-		cout << "Invalid coordinates. Try again." << endl;
-		cin >> tgtY >> tgtX;
-	}
+	cout << "Enter target x-coordinate: ";
+	int tgtY = UI::readInt(1, MAPWIDTH-2);
+	cout << "Enter target y-coordinate: ";
+	int tgtX = UI::readInt(1, MAPHEIGHT-2);
 	
 	vector<int> deadPlayers;
 	int hitCount = 0;

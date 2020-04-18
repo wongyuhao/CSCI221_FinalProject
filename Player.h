@@ -10,7 +10,7 @@
 
 #include "Entity.h"
 #include "Config.h"
-#include "Prompt.h"
+#include "UI.h"
 
 using namespace std;
 
