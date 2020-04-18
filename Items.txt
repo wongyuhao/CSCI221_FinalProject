@@ -1,41 +1,41 @@
 Fist
-WeaponP
+weaponP
 0 0 5 10000 1 
 
 Lamppost
-WeaponP
+weaponP
 1000 0 10 10000 1
 
 Skirmish Blade
-WeaponP
+weaponP
 1400 0 12 10000 1
 
 Aghanim Blade
-WeaponP
+weaponP
 1500 0 15 10000 1
 
 Invoker's Call
-WeaponP
+weaponP
 2200 0 20 10000 1
 
 The BLitzkireg
-WeaponS
+weaponS
 2000 10 8 10000 1 3
 
 Soul Brewer
-WeaponS
+weaponS
 3000 10 12 10000 1 3
 
 Void's Bow
-WeaponP
+weaponS
 1000 0 6 10000 5
 
 Frozen Arrow
-WeaponP
+weaponP
 2000 0 10 10000 5
 
 Dawn Husker
-WeaponP
+weaponP
 3000 0 15 10000 5
 
 Health Pot
