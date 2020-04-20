@@ -73,11 +73,10 @@ void Display::printPlayerStats(Player* const player) const {
 		const Item* const item = itemList[player->getEquippedWeaponItem().first];
 		if(item->getType() == "Weapon (Splash)") cout << " (radius: " << item->getRadius() << ")";
 	}
-	cout << " | MAX ENERGY: " << player->getEnergyStat();
+	cout << " | ENERGY: " << player->getRemainingMoves() << "/" << player->getEnergyStat();
 	cout << endl;
 	
 	cout << "Currency: " << player->getCurrency() << endl;
-	cout << "Energy left: " << player->getRemainingMoves() << endl;
 	cout << "Current coordinate: (" << player->getPosY() << ", " << player->getPosX() << ")" << endl;
 	cout << string(30, '=') << endl;
 }
@@ -219,6 +218,8 @@ void Display::playerMenu() {
 					currentPlayer->addKillCount(deadPlayers.size());
 					currentPlayer->addEquippedItem(item->getID(), item->getType(), item->getStat(), -1);
 					currentPlayer->addRemainingMoves(-item->getEnergyCost());
+					
+					if(currentPlayer->getHealthStat() <= 0) incrementCurrentTurn();
 					return;
 				}
 				
@@ -232,6 +233,8 @@ void Display::playerMenu() {
 				removeDeadPlayers(deadPlayers);
 				
 				currentPlayer->addKillCount(deadPlayers.size());
+				
+				if(currentPlayer->getHealthStat() <= 0) incrementCurrentTurn();
 				
 				return;
 			}
@@ -362,6 +365,8 @@ void Display::playerMenu() {
 			case 5 : {
 				incrementCurrentTurn();
 				system("cls");
+				if(roundCounter > ROUND_LIMIT) return;
+				
 				cout << "Pass the device to Player " << char('A'+currentTurn) << "." << endl;
 				return;
 			}

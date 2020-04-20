@@ -42,8 +42,13 @@ public:
 	
 	inline void incrementCurrentTurn(){ //increments to next turn or loops back to first player's turn
 		playerList[currentTurn].endTurn();
-		currentTurn++; currentTurn %= playerList.size();
-		if(currentTurn == 0) roundCounter++;
+		do {
+			currentTurn++;
+			if(currentTurn == playerList.size()) {
+				currentTurn %= playerList.size();
+				roundCounter++;
+			}
+		} while(playerList[currentTurn].getHealthStat() <= 0);
 		playerList[currentTurn].beginTurn();
 	}
 };
