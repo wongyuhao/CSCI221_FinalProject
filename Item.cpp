@@ -11,7 +11,7 @@ void Item::buyItem(Player* const player) const {
 	//check that user has enough currency
 	if(player->getCurrency() < getCost()) {
 		cout << "Insufficient currency." << endl;
-		system("pause"); return;
+		return;
 	}
 	
 	//if the selected item will overwrite the user's weapon/energy item, warn the user
@@ -116,14 +116,14 @@ vector<int> CubeWeaponItem::use(Player* const user, vector<Player>& playerList) 
 
 vector<int> HealingItem::use(Player* const user, vector<Player>& playerList) const {
 	const int oldHP = user->getHealthStat();
-	user->addHealthStat(stat);
-	cout << "HP increased by " << stat << " (" << oldHP << " -> " << user->getHealthStat() << endl;
+	user->addHealthStat(min(stat, DEFAULT_HP-oldHP));
+	cout << "HP increased by " << stat << " (" << oldHP << " -> " << user->getHealthStat() << ")" << endl;
 	return vector<int>();
 }
 
 vector<int> EnergyItem::use(Player* const user, vector<Player>& playerList) const {
 	const int oldEnergy = user->getEnergyStat();
 	user->setEnergyStat(DEFAULT_ENERGY + stat);
-	cout << "Max energy increased by " << stat << " (" << oldEnergy << " -> " << user->getEnergyStat() << endl;
+	cout << "Max energy increased by " << stat << " (" << oldEnergy << " -> " << user->getEnergyStat() << ")" << endl;
 	return vector<int>();
 }
