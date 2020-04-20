@@ -38,8 +38,11 @@ int main() {
 	
 	while(roundCounter <= ROUND_LIMIT && aliveCount > 1) {
 		display.playerMenu();
-		system("pause");
+		if(roundCounter <= ROUND_LIMIT) system("pause");
 	}
+	
+	system("cls");
+	display.printMap();
 	
 	cout << endl << string(10, '=') << " GAME END " << string(10, '=') << endl;
 	vector<const Player*> leaderboard = display.printLeaderboard();	
