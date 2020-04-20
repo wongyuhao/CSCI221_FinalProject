@@ -12,6 +12,7 @@
 #include "Display.h"
 #include "DataFetcher.h"
 #include "UI.h"
+#include "Config.h"
 
 using namespace std;
 
@@ -35,15 +36,12 @@ int main() {
 	//first turn
 	playerList[currentTurn].beginTurn();
 	
-	while (aliveCount > 1) {
+	while(roundCounter <= ROUND_LIMIT && aliveCount > 1) {
 		display.playerMenu();
 		system("pause");
 	}
 	
-	while(playerList[currentTurn].getHealthStat() <= 0) {
-		currentTurn = (currentTurn + 1) % playerList.size();
-	}
-	
 	cout << endl << string(10, '=') << " GAME END " << string(10, '=') << endl;
-	cout << "Player " << playerList[currentTurn].getID() << " wins!" << endl;
+	vector<const Player*> leaderboard = display.printLeaderboard();	
+	cout << "Player " << leaderboard[0]->getID() << " wins!" << endl;
 }
