@@ -243,7 +243,7 @@ vector<int> Player::defaultAttack(vector<Player>& playerList) {
 	vector<int> deadPlayers;
 	cout << attackStat << " damage dealt to Player " << target.getID() << " (" << oldHP << "->" << target.getHealthStat() << ")" << endl;
 	if(target.getHealthStat() <= 0) {
-		cout << "Player " << target.getID() << " has been slained by Player " << getID() << "!" << endl;
+		cout << "Player " << target.getID() << " has been slain by Player " << getID() << "!" << endl;
 		deadPlayers.push_back(target.getID() - 'A');
 	}
 	
