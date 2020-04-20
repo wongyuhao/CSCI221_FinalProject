@@ -27,7 +27,7 @@ void Display::printMap() const {
 void Display::initMap() {
 	for (int row = 0; row < MAPHEIGHT; row++) {
 		for (int col = 0; col < MAPWIDTH; col++) {
-			gameMap[row][col] = '.';
+			gameMap[row][col] = BLANK;
 		}
 	}
 
@@ -50,9 +50,7 @@ void Display::initMap() {
 	}
 	
 	//populate buildings
-	for (int i = 0; i < buildingList.size(); i++) {
-		gameMap[buildingList[i].getPosX()][buildingList[i].getPosY()] = buildingList[i].getID();
-	}
+	MapUtil::addBuildings(gameMap);
 
 	//populate players
 	for (int i = 0; i < playerList.size(); i++) {
@@ -63,10 +61,12 @@ void Display::initMap() {
 	}
 }
 
-void Display::printPlayerStat(Player* const player) const {
+void Display::printPlayerStats(Player* const player) const {
 	cout << string(30, '=') << endl;
 	
-	cout << "Player " << player->getID() << "'s turn" << endl << endl;
+	cout << "Player " << player->getID() << "'s turn" << endl;
+	cout << "Round " << roundCounter << "/" << ROUND_LIMIT << endl << endl;
+	
 	cout << "HP: " << player->getHealthStat();
 	cout << " | ATK: " << player->getAttackStat();
 	if(player->getEquippedWeaponItem().first >= 0 && player->getEquippedWeaponItem().first < itemList.size()) {
@@ -82,20 +82,22 @@ void Display::printPlayerStat(Player* const player) const {
 	cout << string(30, '=') << endl;
 }
 
-bool cmpKillCount(int x, int y) {
-	const Player* const p1 = &playerList[x];
-	const Player* const p2 = &playerList[y];
+bool Display::cmpKillCount(const Player* const p1, const Player* const p2) {
+	const int hp1 = p1->getHealthStat();	const int hp2 = p2->getHealthStat();
+	const int k1 = p1->getKillCount();		const int k2 = p2->getKillCount();
+	const bool a1 = hp1>0;					const bool a2 = hp2>0;
+	const char ID1 = -p1->getID();			const char ID2 = -p2->getID();
 	
-	return pair<int,int>(p1->getKillCount(), p1->getHealthStat()) > pair<int,int>(p2->getKillCount(), p2->getHealthStat());
+	return tie(a1, k1, hp1, ID1) > tie(a2, k2, hp2, ID2);
 }
 
-void Display::printLeaderboard() const {
-	vector<int> playerOrder;
+vector<const Player*> Display::printLeaderboard() const {
+	vector<const Player*> leaderboard;
 	for(int i = 0; i < playerList.size(); i++) {
-		playerOrder.push_back(i);
+		leaderboard.push_back(&playerList[i]);
 	}
 	
-	sort(playerOrder.begin(), playerOrder.end(), cmpKillCount);
+	sort(leaderboard.begin(), leaderboard.end(), cmpKillCount);
 	
 	const vector<string> labels = {"No", "Player    ", "Kills", "HP ", "Coordinates"};
 	vector<int> colSize;
@@ -113,20 +115,22 @@ void Display::printLeaderboard() const {
 	}
 	cout << endl << string(tableWidth, '-') << endl;
 	
-	for(int i = 0; i < playerOrder.size(); i++) {
-		const Player& player = playerList[playerOrder[i]];
+	for(int i = 0; i < leaderboard.size(); i++) {
+		const Player* const player = leaderboard[i];
 		ostringstream coordinates;
-		coordinates << "(" << player.getPosY() << ", " << player.getPosX() << ")";
+		coordinates << "(" << player->getPosY() << ", " << player->getPosX() << ")";
 		cout<< left
 			<< setw(colSize[0]) << i+1
-			<< setw(colSize[1]) << string("Player ")+player.getID()
-			<< setw(colSize[2]) << player.getKillCount()
-			<< setw(colSize[3]) << player.getHealthStat()
+			<< setw(colSize[1]) << string("Player ")+player->getID()
+			<< setw(colSize[2]) << player->getKillCount()
+			<< setw(colSize[3]) << player->getHealthStat()
 			<< setw(colSize[4]) << coordinates.str()
 			<< endl;
 	}
 	
 	cout << string(tableWidth, '=') << endl << endl;
+	
+	return leaderboard;
 }
 
 void Display::printItem(const Item* item, const vector<int>& colSize, const int type, const int count) const {
@@ -171,7 +175,7 @@ void Display::playerMenu() {
 	printMap();
 	
 	Player* currentPlayer = &playerList[currentTurn];
-	printPlayerStat(currentPlayer);
+	printPlayerStats(currentPlayer);
 	
 	cout <<"[0] MOVE" << endl;
 	cout <<"[1] ATTACK"<< endl;
@@ -288,7 +292,7 @@ void Display::playerMenu() {
 				const Item *item = itemList[option];
 				
 				//user can only use healing items as other items are applied automatically when bought
-				if(item->getType() != "healing") {
+				if(item->getType() != "Healing") {
 					cout << "This item is not usable." << endl;
 					return;
 				}
