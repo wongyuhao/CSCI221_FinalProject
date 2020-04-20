@@ -14,8 +14,8 @@ private:
 	const int INF = int(1e9);
 	
 public:
-	static void fetchPlayers(const int playerCount);
-	static void fetchItems();
+	static void fetchPlayers(const int playerCount); //append [playerCount] players to playerList (in Display.h)
+	static void fetchItems(); //fetch items from Items.txt and append items to itemList (in Resource.h)
 };
 
 #endif

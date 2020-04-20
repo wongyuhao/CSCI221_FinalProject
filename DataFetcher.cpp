@@ -34,7 +34,7 @@ void DataFetcher::fetchItems() {
 			itemList.push_back(new EnergyItem(currentID, name, cost, stat, durability));
 		}
 		else {
-			cout << "Error when reading Items.txt: Invalid item type." << endl;
+			cout << "Error when reading Items.txt: Invalid item type. Type received: " << type << endl;
 			assert(0);
 		}
 		
