@@ -153,15 +153,6 @@ Player::Player(
 	//cout <<": Spawning Player "<< getID()<<" at [ " << getPosX()<<" ,"<< getPosY()<<" ]"<<endl;
 }
 
-//Begin/end turn functions, called during beginning/end of turn
-void Player::beginTurn() {
-	remainingMoves = energyStat;
-}
-void Player::endTurn() {
-	remainingMoves = 0;
-	currency += 50;
-}
-
 //Move function
 
 //Breadth-first-search to find shortest distance with map obstacles in mind
@@ -204,7 +195,7 @@ vector<int> Player::defaultAttack(vector<Player>& playerList) {
 		//go back
 		if(targetID == 'X') {
 			cout << "Crisis averted." << endl;
-			system("pause"); return vector<int>();
+			return vector<int>();
 		}
 		
 		//check range
@@ -246,13 +237,13 @@ vector<int> Player::defaultAttack(vector<Player>& playerList) {
 	}
 	
 	int oldHP = target.getHealthStat();
-	target.addHealthStat(-min(oldHP, attackStat));
+	target.addHealthStat(-min(oldHP, DEFAULT_ATTACK_DAMAGE));
 	remainingMoves -= DEFAULT_ATTACK_ENERGY_COST;
 	
 	vector<int> deadPlayers;
 	cout << attackStat << " damage dealt to Player " << target.getID() << " (" << oldHP << "->" << target.getHealthStat() << ")" << endl;
 	if(target.getHealthStat() <= 0) {
-		cout << "Player " << target.getID() << " has been slained by Player " << getID() << "!" << endl;
+		cout << "Player " << target.getID() << " has been slain by Player " << getID() << "!" << endl;
 		deadPlayers.push_back(target.getID() - 'A');
 	}
 	

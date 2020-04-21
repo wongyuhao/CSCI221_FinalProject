@@ -1,14 +1,30 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 /*
-This file stores constants that are used throughout the program,
-it is designed specifically to prevent circular includes and compilation errors
+This file stores constants that are used throughout the program.
 */
 
+//map dimensions
+constexpr int MAPHEIGHT = 30;
+constexpr int MAPWIDTH = MAPHEIGHT * 2; //mulitply width of the map by 2 because ascii char are rectangular
 
-constexpr int MAPHEIGHT = 30; //constant size of the map
-constexpr int MAPWIDTH = MAPHEIGHT * 2;//mulitply size of the map by 2 because ascii char are rectangul
+//round limit
+constexpr int ROUND_LIMIT = 50;
 
-constexpr char BLANK = '.'; //character used for blank spaces on game map
+//default stats
+constexpr int DEFAULT_HP = 100; //starting, maximum HP
+constexpr int DEFAULT_ATTACK_DAMAGE = 5; //damage of the default attack
+constexpr int DEFAULT_ATTACK_RANGE = 1; //range of the default attack
+constexpr int DEFAULT_ATTACK_ENERGY_COST = 1; //energy cost of the default attack
+constexpr int DEFAULT_ENERGY = 10; //default energy
+constexpr int DEFAULT_CURRENCY = 1000; //starting money
+constexpr int PASSIVE_INCOME = 500; //income gained after every turn
+
+//game map characters
+constexpr char BLANK = '.';
+constexpr char TREE[3] = "##";
+constexpr char SWAMP[3] = "##";
+constexpr char CLIFF[3] = "##";
+constexpr char BUSH[3] = "##";
 
 #endif
