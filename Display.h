@@ -5,15 +5,14 @@
 #include <vector>
 
 #include "Player.h"
-#include "Building.h"
 #include "Resource.h"
 #include "Config.h"
 #include "UI.h"
 #include "MapUtil.h"
 
 using namespace std;
-extern vector <Player> playerList;
-extern int aliveCount;
+extern vector <Player> playerList; //vector of Player objects
+extern int aliveCount; //number of players alive
 
 class Display
 {
@@ -37,7 +36,7 @@ public:
 	void printPlayerStats(Player* const player) const; //print player stats, called in main menu
 	vector<const Player*> printLeaderboard() const; //print leaderboard. Returns the sorted list of player pointers.
 	void printItem(const Item* item, const vector<int>& colSize, const int type, const int count = 0) const; //print item stats in inventory (type=0) or shop (type=1)
-	void removeDeadPlayers(const vector<int>& deadPlayers); //removes dead players from map
+	void removeDeadPlayers(const vector<int>& deadPlayers); //removes dead players (in the deadPlayers vector) from map
 	void playerMenu(); //switch menu to prompt specific player for action during their turn
 	
 	inline void incrementCurrentTurn(){ //increments to next turn or loops back to first player's turn

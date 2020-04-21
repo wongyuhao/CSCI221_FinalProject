@@ -11,9 +11,10 @@ using namespace std;
 
 class MapUtil {
 private:
+	//returns whether the coordinates is within the map boundaries (including the borders)
 	static bool outOfBounds(const int X, const int Y);
 public:
-	//add buildings into gameMap using the functions below
+	//add buildings into gameMap using the print functions below
 	static void addBuildings(char gameMap[MAPHEIGHT][MAPWIDTH]);
 	
 	//horizontal line (x, y1..y2)

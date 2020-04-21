@@ -2,15 +2,13 @@
 #define RESOURCE_H
 
 #include "Item.h"
-#include "Building.h"
 #include <vector>
 
 using namespace std;
 
-extern int currentTurn;
-extern int roundCounter;
+extern int currentTurn; //current player index [0..playerList.size()-1]
+extern int roundCounter; //current round counter
 
-extern vector<Building> buildingList;
-extern vector<Item*> itemList;
+extern vector<Item*> itemList; //list of items; fetched from Items.txt before the game starts
 
 #endif

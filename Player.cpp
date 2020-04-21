@@ -8,6 +8,7 @@ const int INF = int(1e9);
 const int dx[4] = {0, 0, -1, 1};
 const int dy[4] = {-1, 1, 0, 0};
 
+//check whether coordinates is within the map boundaries (EXCLUDING the borders)
 bool outOfBounds(int X, int Y, char gameMap[MAPHEIGHT][MAPWIDTH]) {
 	return (X <= 0 || X >= MAPHEIGHT-1 || Y <= 0 || Y >=MAPWIDTH-1);
 }

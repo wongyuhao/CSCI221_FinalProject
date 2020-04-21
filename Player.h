@@ -21,12 +21,12 @@ namespace{
 class Player: public Entity
 {
 private:
-	int healthStat;
-	int attackStat;
-	int energyStat;
-	int currency;
-	int remainingMoves;
-	int killCount;
+	int healthStat; //current HP
+	int attackStat; //current damage the player can inflict
+	int energyStat; //max energy of the player; player's energy is reset to this at the beginning of his turn
+	int currency; //player's money
+	int remainingMoves; //current remaining energy
+	int killCount; //player's kill count
 	pair<int,int> equippedWeaponItem; //Item ID, current durability
 	map<int,int> equippedHealingItems; //Item ID -> count
 	pair<int,int> equippedEnergyItem; //Item ID, currnet durability
@@ -36,9 +36,9 @@ public:
 	
 	int getHealthStat() const; //returns remaining health
 	int getAttackStat() const; //returns damage that player can inflict
-	int getEnergyStat() const; //returns distance that player can move in 1 turn
+	int getEnergyStat() const; //returns the player's max energy
 	int getCurrency() const; //returns value of player's money
-	int getRemainingMoves() const; //returns remaining moves in the turn
+	int getRemainingMoves() const; //returns remaining energy
 	int getKillCount() const; //returns kill count of player
 	//returns player's weapons/healing items/energy items, respectively. (key, value)/(first, second) = (item ID, durability/count left)
 	const pair<int,int>& getEquippedWeaponItem() const; 
