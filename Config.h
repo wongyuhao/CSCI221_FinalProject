@@ -12,7 +12,7 @@ constexpr int MAPWIDTH = MAPHEIGHT * 2; //mulitply width of the map by 2 because
 constexpr int ROUND_LIMIT = 50;
 
 //default stats
-constexpr int DEFAULT_HP = 55; //starting HP
+constexpr int DEFAULT_HP = 100; //starting, maximum HP
 constexpr int DEFAULT_ATTACK_DAMAGE = 5; //damage of the default attack
 constexpr int DEFAULT_ATTACK_RANGE = 1; //range of the default attack
 constexpr int DEFAULT_ATTACK_ENERGY_COST = 1; //energy cost of the default attack
