@@ -46,5 +46,7 @@ int main() {
 	
 	cout << endl << string(10, '=') << " GAME END " << string(10, '=') << endl;
 	vector<const Player*> leaderboard = display.printLeaderboard();	
-	cout << "Player " << leaderboard[0]->getID() << " wins!" << endl;
+	cout << "Player " << leaderboard[0]->getID() << " wins!" << endl << endl;
+	
+	UI::promptYN("End game?");
 }
