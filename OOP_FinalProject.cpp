@@ -7,7 +7,6 @@
 #define _WIN32_WINNT 0x0500
 #include <windows.h>
 
-#include "Building.h"
 #include "Player.h"
 #include "Display.h"
 #include "DataFetcher.h"
@@ -28,6 +27,7 @@ int main() {
 	cout << "Enter number of players: ";
 	int playerCount = UI::readInt(2,10);
 	
+	//fetch players and items
 	DataFetcher::fetchPlayers(playerCount);
 	DataFetcher::fetchItems();
 	
@@ -36,11 +36,13 @@ int main() {
 	//first turn
 	playerList[currentTurn].beginTurn();
 	
+	//display menu while game doesn't end
 	while(roundCounter <= ROUND_LIMIT && aliveCount > 1) {
 		display.playerMenu();
 		if(roundCounter <= ROUND_LIMIT) system("pause");
 	}
 	
+	//game ends
 	system("cls");
 	display.printMap();
 	
