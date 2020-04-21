@@ -9,6 +9,8 @@
 
 using namespace std;
 
+/* This file fetches items from Items.txt and appends players to playerList */
+
 class DataFetcher {
 private:
 	const int INF = int(1e9);

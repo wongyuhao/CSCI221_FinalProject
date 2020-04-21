@@ -8,13 +8,15 @@
 
 using namespace std;
 
+// Usage: The effect when the use() function of an item is called
+
 class Item: public Type {
 protected:
 	string name; //name of the object
-	string type; //type of the object (weapon/healing/energy)
+	string type; //type of the object (Weapon (Player)/Weapon (Splash)/Healing/Energy)
 	int cost; //monetary cost of the object
 	int energyCost; //energy cost of the object
-	int stat; // damage/heal/max energy, depending on the type of item
+	int stat; //damage/heal/max energy, depending on the type of item
 	int durability; //number of uses before the item expires
 	
 public:
@@ -48,14 +50,16 @@ public:
 		return 0;
 	}
 	
+	//adds the item to player
 	void buyItem(Player* const player) const;
-	virtual vector<int> use(Player* const user, vector<Player>& playerList) const = 0; //return value: dead players indices caused by item use
+	//return value: dead players indices caused by item use
+	virtual vector<int> use(Player* const user, vector<Player>& playerList) const = 0;
 };
 
 
 class WeaponItem: public Item {
 protected:
-	int range;
+	int range; //max Manhattan distance between the user and the selected target player/location
 	
 public:
 	WeaponItem(): range(0) {}
@@ -67,6 +71,7 @@ public:
 	}
 };
 
+//Usage: Damages a single player by stat
 class PlayerWeaponItem: public WeaponItem {
 public:
 	PlayerWeaponItem(){}
@@ -76,9 +81,10 @@ public:
 	vector<int> use(Player* const user, vector<Player>& playerList) const override;
 };
 
+//Usage: Damages all players within the area of effect
 class CubeWeaponItem: public WeaponItem {
 private:
-	int radius;
+	int radius; //area of effect: A square centered at selected coordinates with side length (2*radius-1)
 	
 public:
 	CubeWeaponItem(): radius(0) {}
@@ -92,7 +98,9 @@ public:
 	vector<int> use(Player* const, vector<Player>& playerList) const override;
 };
 
+//Note: Healing and energy items have no energy cost
 
+//Usage: Increases current HP by stat (max HP capped at DEFAULT_HP)
 class HealingItem: public Item {
 public:
 	HealingItem(){}
@@ -102,7 +110,7 @@ public:
 	vector<int> use(Player* const user, vector<Player>& playerList) const override;
 };
 
-
+//Usage: Increases current max energy by stat; can be stacked
 class EnergyItem: public Item {
 public:
 	EnergyItem(){}

@@ -3,13 +3,14 @@
 
 class Type {
 private:
-	int ID;
+	int ID; //ID of the Type
 
 public:
 	Type(int id): ID(id) {}
 
 	Type():	ID(0) {}
-
+	
+	//mutator/accessor functions
 	inline void setID(int id) {
 		this->ID = id;
 	}

@@ -16,7 +16,7 @@ constexpr int DEFAULT_HP = 100; //starting, maximum HP
 constexpr int DEFAULT_ATTACK_DAMAGE = 5; //damage of the default attack
 constexpr int DEFAULT_ATTACK_RANGE = 1; //range of the default attack
 constexpr int DEFAULT_ATTACK_ENERGY_COST = 1; //energy cost of the default attack
-constexpr int DEFAULT_ENERGY = 10; //default energy
+constexpr int DEFAULT_ENERGY = 10; //default max energy
 constexpr int DEFAULT_CURRENCY = 1000; //starting money
 constexpr int PASSIVE_INCOME = 500; //income gained after every turn
 
